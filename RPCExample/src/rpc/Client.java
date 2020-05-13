@@ -1,32 +1,47 @@
 package rpc;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.Socket;
-import java.util.Scanner;
+import java.net.UnknownHostException;
 
 public class Client {
-    public static void main(String[] args)throws IOException {
-    Scanner scannerIn = new Scanner(System.in); 
-    Socket sock=new Socket("127.0.0.1", 6066);
+
+    static final int PORT = 6066;
+    static final String HOST = "127.0.0.1";
+    public static void main(String[] args) {
+    BufferedReader bufferReader = new BufferedReader(new InputStreamReader(System.in));
+    Socket socket = null;
     try {
-        DataInputStream in= new DataInputStream(sock.getInputStream());
-        DataOutputStream out =new DataOutputStream(sock.getOutputStream());
-        System.out.println("write Command: ");
+        socket = new Socket(HOST, PORT);        // connect to the server on prot 6066 localhost 
+    } catch (UnknownHostException e) {          // throws Exception if server is not running
+        System.out.println(e.getMessage());
+        System.exit(1);
+    } catch (IOException e){
+        System.out.println(e.getMessage());
+        System.exit(1);
+    }
+    try {
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        PrintStream out = new PrintStream(socket.getOutputStream());
+        System.out.println("write Commands here: ");
+        System.out.println(in.readLine());
+
         String inputCommand = "";
-        while(!inputCommand.equals("stop")){
-            inputCommand = scannerIn.nextLine();
-            out.writeUTF(inputCommand);
-            System.out.println(in.readUTF());
+        String serverResponds = "";
+        while(!serverResponds.equals("goodby")){
+            inputCommand = bufferReader.readLine();
+            out.println(inputCommand);                 
+            serverResponds = in.readLine();
+            System.out.println(serverResponds);
         }
-    } catch (Exception e) {
+        socket.close();
+        bufferReader.close();
+    } catch (IOException e) {
         e.printStackTrace();
-		System.exit(1);
-    } finally {
-        sock.close();
-        scannerIn.close();
+        System.exit(1);
     }
     }
 }

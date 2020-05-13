@@ -1,89 +1,124 @@
 package rpc;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.net.Socket;
 
 public class WhiteBoardThread extends Thread {
-    private Socket socket;
-    private WhiteBoard whiteBoard;  
-    private DataInputStream in = null;
-    private DataOutputStream out = null;
-    private String createShapeInfo = String.format("Choose one type of Shape by sending one of: %s, %s, %s", ENUMShape.circle, ENUMShape.triangle, ENUMShape.rectangle);
-    private String whatYouCanDoInfo = "There are 4 services: create, put, delete and get";
-    private Shape currentShape = null;
-    WhiteBoardThread(Socket s, WhiteBoard wb){
-        this.socket = s;
-        this.whiteBoard = wb; 
-        
+
+    static String useHelpMessage = "For more information on how to use this service type: help";
+    static String whatYouCanDoInfo = String.format("There are four services: create, put, delete and get, please select one. To quit the connection type: stop ");
+    static String createShapeInfo = String.format("Choose a Shape by selecting one of: %s, %s, %s.", ENUMShape.circle, ENUMShape.triangle, ENUMShape.rectangle);
+    static String errorMessageShape = String.format("This type of shape is not available, maybe you can change that? %s", createShapeInfo);
+    static String errorMessagePut = String.format("There is no Shape to put onto the whiteboard, create one first...");
+    static String deleteInfo = String.format("Select the Shape you want to delete by ID: ");
+    static String successMessage = String.format("Successfully");
+    static String failureMessage = String.format("Failure in");
+    static String errorMessageDelete = String.format("Please type in a number for IDs");
+    static String defaultMessage = String.format("Typo? or %s", useHelpMessage);
+    static String welcomeMessage = String.format("Welcome to this Whiteboard service! %s",useHelpMessage);
+    static String goodbyMessage = "goodby";
+
+    private final Socket socket;
+    private final WhiteBoard whiteBoard;
+    private BufferedReader in = null;
+    private PrintStream out = null;
+    private Shape currentShape;
+    /**
+     * 
+     * @param socket
+     * @param whiteBoard
+     */
+    WhiteBoardThread(final Socket socket, final WhiteBoard whiteBoard) {
+        this.socket = socket;
+        this.whiteBoard = whiteBoard;
+        this.currentShape = null;
     }
+    /**
+     * 
+     */
     public void run() {
-        try{
-            this.in= new DataInputStream(this.socket.getInputStream());
-            this.out =new DataOutputStream(this.socket.getOutputStream());
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        String messageIn = "";
-        while (!messageIn.equals("stop")) {
-            try{
-                messageIn = this.in.readUTF(); 
-                System.out.println(messageIn);
-                handleCommand(messageIn); 
+        try {
+            this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+            this.out = new PrintStream(this.socket.getOutputStream());
+            this.out.println(welcomeMessage);
+            this.out.flush();
+            String messageIn = "";
+            while (!messageIn.equals("stop")) {
+                messageIn = this.in.readLine();
+                handleCommand(messageIn);
                 out.flush();
-            } catch (IOException e){
-                e.printStackTrace();
             }
-        }
-        try{
-            in.close();
-            socket.close();
-        } catch (IOException e){
+            this.in.close();
+            this.socket.close();
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }
-
+    /**
+     * 
+     * @param command
+     * @throws IOException
+     */
     public void handleCommand(String command) throws IOException {
-
         switch (command.strip().toLowerCase()) {
             case "create":
-                this.out.writeUTF(createShapeInfo);
-                String shapeName = this.in.readUTF().strip();
-                try{
-                    ENUMShape shapeType = ENUMShape.valueOf(shapeName);
+                this.out.println(createShapeInfo);
+                final String shapeName = this.in.readLine().strip().toLowerCase();
+                try {
+                    final ENUMShape shapeType = ENUMShape.valueOf(shapeName);
                     this.currentShape = whiteBoard.createShape(shapeType);
-                    this.out.writeUTF(this.currentShape.toString());
-                } catch (IllegalArgumentException ex) {  
-                    this.out.writeUTF("this shape is not available,"+ createShapeInfo);
-                }                
+                    this.out.println(this.currentShape.toString());
+                } catch (final IllegalArgumentException ex) {
+                    this.out.println(errorMessageShape);
+                }
                 break;
             case "put":
-                if (this.currentShape!=null){
-                    this.whiteBoard.placeShape(this.currentShape); 
+                if (this.currentShape != null) {
+                    this.whiteBoard.placeShape(this.currentShape);
                     this.currentShape = null;
-                    this.out.writeUTF(this.whiteBoard.toString());
+                    this.out.println(this.whiteBoard.toString());
                 } else {
-                    this.out.writeUTF("there is no shape to put onto the whiteboard, create one first...");
+                    this.out.println(errorMessagePut);
                 }
                 break;
             case "delete":
-                this.out.writeUTF("select the shape you want to delete by id: "+this.whiteBoard.toString());
-                try{
-                    command = this.in.readUTF(); 
-                    int shapeId = Integer.parseInt(command);
-                    boolean removed  = this.whiteBoard.removeShape(shapeId);
-                    this.out.writeUTF(String.format("removed %d %b: ", shapeId, removed) + this.whiteBoard.toString());
-                } catch (NumberFormatException e) {
-                    this.out.writeUTF(String.format("id %s does not exist! try again", command));
+                this.out.println(deleteInfo + this.whiteBoard.toString());
+                try {
+                    command = this.in.readLine();
+                    final int shapeId = Integer.parseInt(command);
+                    final boolean removed = this.whiteBoard.removeShape(shapeId);
+                    this.out.println(String.format("%s removed Shape %d: ", getStatusMessage(removed), shapeId)
+                            + this.whiteBoard.toString());
+                } catch (final NumberFormatException e) {
+                    this.out.println(errorMessageDelete);
                 }
                 break;
             case "get":
-                this.out.writeUTF(this.whiteBoard.toString());
+                this.out.println(this.whiteBoard.toString());
+                break;
+            case "stop":
+                this.out.println(goodbyMessage);
+                break;
+            case "help":
+                this.out.println(whatYouCanDoInfo);
                 break;
             default:
-                out.writeUTF(this.whatYouCanDoInfo);
-                break;
+                out.println(defaultMessage);
+        }
+    }
+    /**
+     * returns the corresponding Message if an operation was successful or not
+     * @param status
+     * @return 
+     */
+    public String getStatusMessage(boolean status) {
+        if (status){
+            return successMessage;
+        } else {
+            return failureMessage;
         }
     }
 }

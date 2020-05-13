@@ -7,35 +7,32 @@ import java.net.Socket;
 public class Server {
     
     static final int PORT = 6066;
-    private ServerSocket serverSocket;
+    private ServerSocket serverListen;
     private WhiteBoard whiteBoard;
 
     public Server(){
         try{
-            this.serverSocket = new ServerSocket(PORT);
-            this.whiteBoard = new WhiteBoard(); 
+            this.serverListen = new ServerSocket(PORT); 
+            this.whiteBoard = new WhiteBoard();  // one shared Whiteboard between all Threats created on this server
         } catch (IOException e){
             e.printStackTrace();
         }
     }
 
-    public void runServer() throws IOException {
-        try {   
-           while (true) {
-            System.out.println("Server Listening......");
-            Socket socket=serverSocket.accept();
-            new WhiteBoardThread(socket, this.whiteBoard).start();
-            System.out.println("connected to new client");
-           }
-       } catch (IOException e) {
+    public void runServer(){
+        while (true) {
+            try {
+            System.out.println("Server is Listening......");
+            Socket socket=serverListen.accept();
+            new WhiteBoardThread(socket, this.whiteBoard).start(); // the new Thread takes care closing the socket
+            System.out.println("connected to new client"); 
+        } catch (IOException e) {
             e.printStackTrace();
-			System.exit(1);
-       } finally {
-        System.out.println("Server closes forcefully connections!");;
-        this.serverSocket.close();
-       }
+            System.exit(1);
+        } 
     }
-    public static void main(String[] args) throws IOException{
+    }
+    public static void main(String[] args) {
         Server server = new Server();
         server.runServer();
     }
