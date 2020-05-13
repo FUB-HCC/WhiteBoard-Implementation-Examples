@@ -6,34 +6,38 @@ import java.net.Socket;
 
 public class Server {
     
-    static final int PORT = 6066;
     private ServerSocket serverListen;
     private WhiteBoard whiteBoard;
 
-    public Server(){
-        try{
-            this.serverListen = new ServerSocket(PORT); 
-            this.whiteBoard = new WhiteBoard();  // one shared Whiteboard between all Threats created on this server
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+    /**
+	 * port to server
+	 * @param port used to connect to client
+	 * 
+	 */
+    public Server(int port) throws IOException {
+        this.serverListen = new ServerSocket(port); 
+        this.whiteBoard = new WhiteBoard();  // one shared Whiteboard between all Threats created on this server
     }
-
-    public void runServer(){
+    /**
+     * Starts the Server and does all the control for incoming connections assigned to Threads, secret MAIN ;) 
+     */
+    public void startServer() throws IOException{
         while (true) {
-            try {
             System.out.println("Server is Listening......");
             Socket socket=serverListen.accept();
             new WhiteBoardThread(socket, this.whiteBoard).start(); // the new Thread takes care closing the socket
             System.out.println("connected to new client"); 
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        } 
+        }
     }
-    }
-    public static void main(String[] args) {
-        Server server = new Server();
-        server.runServer();
+    public static void main(String[] args) throws IOException{
+        Server server = new Server(12345);
+        try {
+            server.startServer();
+        } catch (Exception e) {
+            System.err.println("Server coudn't be started");
+			e.printStackTrace();
+			System.exit(1);
+        }
+        
     }
 }

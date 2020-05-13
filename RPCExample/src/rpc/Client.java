@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
 
 public class Client {
 
-    static final int PORT = 6066;
+    static final int PORT = 12345;
     static final String HOST = "127.0.0.1";
     public static void main(String[] args) {
     BufferedReader bufferReader = new BufferedReader(new InputStreamReader(System.in));
