@@ -112,7 +112,7 @@ public class WhiteBoardThread extends Thread {
     /**
      * returns the corresponding Message if an operation was successful or not
      * @param status
-     * @return 
+     * @return message
      */
     public String getStatusMessage(boolean status) {
         if (status){
