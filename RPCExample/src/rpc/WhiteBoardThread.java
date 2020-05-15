@@ -8,15 +8,15 @@ import java.net.Socket;
 
 public class WhiteBoardThread extends Thread {
 
-    static String useHelpMessage = "For more information on how to use this service type: help";
-    static String whatYouCanDoInfo = String.format("There are four services: create, put, delete and get, please select one. To quit the connection type: stop ");
+    static String useHelpMessage = "For more information on how to use this service type: \"help\"";
+    static String helpInfo = String.format("There are four services: \"create\", \"put\", \"delete\" and \"get\", please select one. To quit the connection type: \"stop\". When a Shape is created, use \"put\" to place the Shape onto the WhiteBoard");
     static String createShapeInfo = String.format("Choose a Shape by selecting one of: %s, %s, %s.", ENUMShape.circle, ENUMShape.triangle, ENUMShape.rectangle);
-    static String errorMessageShape = String.format("This type of shape is not available, maybe you can change that? %s", createShapeInfo);
-    static String errorMessagePut = String.format("There is no Shape to put onto the whiteboard, create one first...");
+    static String errorMessageShape = String.format("This type of Shape is not available, maybe you can change that? %s", createShapeInfo);
+    static String errorMessagePut = String.format("There is no Shape to \"put\" onto the whiteboard, \"create\" one first...");
     static String deleteInfo = String.format("Select the Shape you want to delete by ID: ");
     static String successMessage = String.format("Successfully");
     static String failureMessage = String.format("Failure in");
-    static String errorMessageDelete = String.format("Please type in a number for IDs");
+    static String errorMessageDelete = String.format("Please type in a number for id");
     static String defaultMessage = String.format("Typo? or %s", useHelpMessage);
     static String welcomeMessage = String.format("Welcome to this Whiteboard service! %s",useHelpMessage);
     static String goodbyMessage = "goodby";
@@ -37,14 +37,14 @@ public class WhiteBoardThread extends Thread {
         this.currentShape = null;
     }
     /**
-     * 
+     * Upon the start of a Threat its run methode is called
      */
+    @Override
     public void run() {
         try {
             this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
             this.out = new PrintStream(this.socket.getOutputStream());
             this.out.println(welcomeMessage);
-            this.out.flush();
             String messageIn = "";
             while (!messageIn.equals("stop")) {
                 messageIn = this.in.readLine();
@@ -52,6 +52,7 @@ public class WhiteBoardThread extends Thread {
                 out.flush();
             }
             this.in.close();
+            this.out.close();
             this.socket.close();
         } catch (final IOException e) {
             e.printStackTrace();
@@ -70,7 +71,7 @@ public class WhiteBoardThread extends Thread {
                 try {
                     final ENUMShape shapeType = ENUMShape.valueOf(shapeName);
                     this.currentShape = whiteBoard.createShape(shapeType);
-                    this.out.println(this.currentShape.toString());
+                    this.out.println(String.format("Created %s, now you can \"put\" the Shape onto the Whiteboard." , currentShape.toString()));
                 } catch (final IllegalArgumentException ex) {
                     this.out.println(errorMessageShape);
                 }
@@ -103,7 +104,7 @@ public class WhiteBoardThread extends Thread {
                 this.out.println(goodbyMessage);
                 break;
             case "help":
-                this.out.println(whatYouCanDoInfo);
+                this.out.println(helpInfo);
                 break;
             default:
                 out.println(defaultMessage);

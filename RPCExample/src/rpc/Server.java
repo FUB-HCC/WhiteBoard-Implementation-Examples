@@ -25,7 +25,7 @@ public class Server {
         while (true) {
             System.out.println("Server is Listening......");
             Socket socket=serverListen.accept();
-            new WhiteBoardThread(socket, this.whiteBoard).start(); // the new Thread takes care closing the socket
+            new WhiteBoardThread(socket, this.whiteBoard).start(); //here a new Thread is stated that calls the run method of the WhiteBoardThread, which takes care closing the socket
             System.out.println("connected to new client"); 
         }
     }

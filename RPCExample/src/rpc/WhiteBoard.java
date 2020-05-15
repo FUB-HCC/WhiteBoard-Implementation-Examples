@@ -21,7 +21,7 @@ public class WhiteBoard {
 
     @Override
     public String toString(){
-        return this.board.toString();
+        return String.format("WhiteBoard: %s", this.board.toString());
     }
 
     public ArrayList<Shape> getBoard(){

@@ -9,6 +9,9 @@ Command **stop**: the client shuts down and the connection closes.
 The principal commands are: *create, put, get,* and *delete*. 
 Other commands are interactive described by the service.
 
+### starting client and server: 
+First run the RPC Server main and then Clients main function. The Server can handle up to 50 Clients parallel. 
+
 ## 2. RMI 
 * **RMI Server**:
 * **RMI Client**: 
