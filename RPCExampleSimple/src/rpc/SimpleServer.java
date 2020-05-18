@@ -16,7 +16,7 @@ public class SimpleServer {
 	 */
     public SimpleServer(int port) throws IOException {
         this.serverListen = new ServerSocket(port); 
-        this.whiteBoard = new WhiteBoard();  // one shared Whiteboard between all Threats created on this server
+        this.whiteBoard = new WhiteBoard();  // one shared Whiteboard between all Clients 
     }
     /**
      * Starts the Server and does all the control for incoming connections
@@ -26,7 +26,7 @@ public class SimpleServer {
             System.out.println("Server is Listening......");
             Socket socket=serverListen.accept();
             new WhiteBoardHandler(socket, this.whiteBoard).startCommunicationHandler(); //calls the run method of the WhiteBoardHandler, which takes care closing the socket
-            System.out.println("connection closed"); 
+            System.out.println("Connection closed"); 
         }
     }
     public static void main(String[] args) throws IOException{
