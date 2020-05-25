@@ -15,7 +15,8 @@ First run the RPC Server main and then Clients main function. The Server can han
 ## 2. RMI 
 * **RMI Server**: Provides the WhiteBoard class a Interface, first start the registry in the right directory (the same as you start the server)
 * **RMI Client**: handles commands and executes them via the Whiteboard remote Interface 
-* **start**: 
+* *compile*: `javac -d bin -cp src src/*/*.jav` or with you IDE relying on *.classpath*
+* *run*: 
   + **cd** /bin
   + rmiregistry
   + java rmiserver.WhiteBoardService
