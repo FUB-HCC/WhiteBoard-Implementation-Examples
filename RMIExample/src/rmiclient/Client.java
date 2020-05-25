@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 
 import rmiinterface.RMIInterface;
 
-public class ClientOperation {
+public class Client {
 	private static RMIInterface look_up;
 
 	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {

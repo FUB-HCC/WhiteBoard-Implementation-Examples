@@ -1,5 +1,5 @@
 #!/bin/bash
 
 cd bin
-rmiregistry
+rmiregistry &
 java rmiserver.WhiteBoardService
