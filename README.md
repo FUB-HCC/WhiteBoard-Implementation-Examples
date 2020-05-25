@@ -13,5 +13,10 @@ Other commands are interactive described by the Whiteborad service.
 First run the RPC Server main and then Clients main function. The Server can handle up to 50 Clients parallel. 
 
 ## 2. RMI 
-* **RMI Server**:
-* **RMI Client**: 
+* **RMI Server**: Provides the WhiteBoard class a Interface, first start the registry in the right directory (the same as you start the server)
+**start**: 
++ **cd** /bin
++ rmiregistry
++ java rmiserver.WhiteBoardService
++ java rmicient.ClientOperation
+* **RMI Client**: handles commands and executes them via the Whiteboard remote Interface 
