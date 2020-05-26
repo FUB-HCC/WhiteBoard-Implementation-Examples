@@ -16,12 +16,19 @@ First run the RPC Server main and then Clients main function. The Server can han
 * **RMI Server**: Provides the WhiteBoard class as an Interface.
 Start the registry first in the `bin` directory (or the same as you start the server)
 * **RMI Client**: handles commands and executes them via the Whiteboard remote Interface 
+* *consists of 3 packages*: 
+  + rmiserver: 
+  + rmiinterface: 
+  + rmiclient:
 * *compile*: `javac -d bin -cp src src/*/*.java` or with you IDE relying on the *.classpath* file
 * *run*: 
   + `cd /bin`
   + `rmiregistry`
   + `java rmiserver.WhiteBoardService`
   + `java rmicient.Client`
-
+* *alternative run*: 
+  + `bash startServer.sh` complies all classes, starts the rmiregistry and the WhiteBoardService, kills the rmiregistry on server termination. 
+  + `bash startCient.sh` starts the client. 
 ## 3. P2P
 * **Peers**: 
++ which peer hold the what data? 
