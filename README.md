@@ -15,7 +15,7 @@ First run the RPC Server main and then Clients main function. The Server can han
 ## 2. RMI 
 * **RMI Server**: Provides the WhiteBoard class as an Interface.
 Start the registry first in the `bin` directory (or the same as you start the server)
-* **RMI Client**: handles commands and executes them via the Whiteboard remote Interface 
+* **RMI Client**: Handles commands and executes them via the Whiteboard remote Interface. The interaction is the as for the RPC example with the principal commands: *create*, *put*, *get*, and *delete*. 
 * *consists of 3 packages*: 
   + rmiserver: 
   + rmiinterface: 
