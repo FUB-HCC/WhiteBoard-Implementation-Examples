@@ -31,4 +31,5 @@ Start the registry first in the `bin` directory (or the same as you start the se
   + `bash startCient.sh` starts the client. 
 ## 3. P2P
 * **Peers**: 
++ [whiteborad solution](https://medium.com/bpxl-craft/building-a-peer-to-peer-whiteboarding-app-for-ipad-2a4c7728863e)
 + which peer hold the what data? 
