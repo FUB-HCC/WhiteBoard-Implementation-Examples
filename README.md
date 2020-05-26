@@ -21,7 +21,7 @@ Start the registry first in the `bin` directory (or the same as you start the se
   + `cd /bin`
   + `rmiregistry`
   + `java rmiserver.WhiteBoardService`
-  + `java rmicient.ClientOperation`
+  + `java rmicient.Client`
 
 ## 3. P2P
 * **Peers**: 
