@@ -19,23 +19,23 @@ public class WhiteBoardHandler {
     static String errorMessageDelete = String.format("Please type in a number for id");
     static String defaultMessage = String.format("Typo? or %s", useHelpMessage);
     static String welcomeMessage = String.format("Welcome to this Whiteboard service! %s",useHelpMessage);
-    static String goodbyMessage = "goodby";
+    static String goodbyMessage = "goodby :)";
 
-    private final RMIInterface whiteBoard;
+    private final WhiteBoardInterface whiteBoard;
     private BufferedReader in = null;
     private Shape currentShape;
     /**
-     * 
-     * @param whiteBoard
+     * the shared remote object which mimics the behavior of a locally available object 
+     * @param whiteBoard 
      */
-    WhiteBoardHandler(final RMIInterface whiteBoard) {
+    WhiteBoardHandler(final WhiteBoardInterface whiteBoard) {
         this.whiteBoard = whiteBoard;
         this.currentShape = null;
     }
     /**
-     * Upon the start all communication is handled here
+     * Upon the start all System.in input is handled here
      */
-    public void startCommunicationHandler() {
+    public void startInputHandler() {
         System.out.println(welcomeMessage);
         try {
             this.in = new BufferedReader(new InputStreamReader(System.in));

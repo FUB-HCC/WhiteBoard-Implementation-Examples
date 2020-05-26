@@ -8,17 +8,19 @@ import java.util.ArrayList;
 import rmiinterface.*;
 
 /**
-* Form wählen (available shapes: triangle, rectangle, circle)
-* Form (Shape) auf Zeichenfläche ablegen
-* Form von Zeichenfläche löschen
-* Formen von Zeichenfläche abrufen
- */
+* implements the following Whiteboard functionalities:
+* Select (available shapes: triangle, rectangle, circle)
+* put Shape onto the Whiteboard 
+* delete shape on Whiteboard
+* get shape by id from Whiteboard
+*/
 
-public class WhiteBoardService extends UnicastRemoteObject implements RMIInterface {
+public class WhiteBoardService extends UnicastRemoteObject implements WhiteBoardInterface {
+    
     private static final long serialVersionUID = 1L;
-
     private ArrayList<Shape> board;
     private int shapeIdCounter;
+
     public WhiteBoardService() throws RemoteException {
         super();
         this.board = new ArrayList<Shape>();
@@ -30,6 +32,9 @@ public class WhiteBoardService extends UnicastRemoteObject implements RMIInterfa
         return String.format("WhiteBoard: %s", this.board.toString());
     }
 
+    /**
+     * make the overwritten toString methode available remotely 
+     */
     public String whiteBoardToString(){
         return this.toString();
     }
@@ -62,14 +67,18 @@ public class WhiteBoardService extends UnicastRemoteObject implements RMIInterfa
         return this.board.remove(shape);
     }
 
+    /**
+     * starts the server and makes the Whiteboard object available to clients 
+     * @param args
+     */
     public static void main(String[] args){
 		try {
-			Naming.rebind("//localhost/WhiteBoard", new WhiteBoardService());            
+			Naming.rebind("//localhost/WhiteBoard", new WhiteBoardService());  // binding the remote object to an url using the default port 1099 of the rmiregistry        
             System.err.println("Server ready");
             
         } catch (Exception e) {
         	System.err.println("Server exception: " + e.toString());
-          e.printStackTrace();
+            e.printStackTrace();
         }
 	}
 }

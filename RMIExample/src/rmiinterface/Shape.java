@@ -1,7 +1,9 @@
 package rmiinterface;
 
 import java.io.Serializable;
-
+/**
+ * implements Serializable for referencing over the remote interface 
+ */
 public class Shape implements Serializable {
     private static final long serialVersionUID = 1L;
 

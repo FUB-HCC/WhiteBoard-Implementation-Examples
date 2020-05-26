@@ -4,7 +4,10 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public interface RMIInterface extends Remote {
+/**
+ * interface of the Whiteboard extends the Remote interface to make its functionality available remotely 
+ */
+public interface WhiteBoardInterface extends Remote {
 	public ArrayList<Shape> getBoard() throws RemoteException;
 	public Shape createShape(ENUMShape name) throws RemoteException;
 	public Shape getShape(int shapeID) throws RemoteException;

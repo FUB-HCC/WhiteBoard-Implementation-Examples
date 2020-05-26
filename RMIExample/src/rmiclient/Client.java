@@ -6,15 +6,15 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 
-import rmiinterface.RMIInterface;
+import rmiinterface.WhiteBoardInterface;
 
 public class Client {
-	private static RMIInterface look_up;
+	private static WhiteBoardInterface wbInterface;
 
 	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
 		
-		look_up = (RMIInterface) Naming.lookup("//localhost/WhiteBoard");
-		WhiteBoardHandler whiteBoardHandler = new WhiteBoardHandler(look_up);
-		whiteBoardHandler.startCommunicationHandler();
+		wbInterface = (WhiteBoardInterface) Naming.lookup("//localhost/WhiteBoard");
+		WhiteBoardHandler whiteBoardHandler = new WhiteBoardHandler(wbInterface); 
+		whiteBoardHandler.startInputHandler(); 	// starts the input interaction with the remote whiteboard  
 	}
 }
