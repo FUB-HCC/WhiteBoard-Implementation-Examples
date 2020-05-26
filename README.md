@@ -7,15 +7,15 @@ Five examples of how to implement a WhiteBoard PRC RMI P2P Cloud and Web
 * **Client**: Connects to the server, sending commands the Whiteboard service. For each message to the server, the client awaits a response.
 Command **stop**: The client shuts down and the connection closes. 
 The principal commands are: *create*, *put*, *get*, and *delete*. 
-Other commands are interactive described by the Whiteborad service.
+Other commands are interactively described by the Whiteboard service.
 
 * **Starting Client and Server**: 
-First run the RPC Server main and then Clients main function. The Server can handle up to 50 Clients parallel. 
+First run the RPC Server main and then Client's main function. The Server can handle up to 50 Clients parallel. 
 
 ## 2. RMI 
 * **RMI Server**: Provides the WhiteBoard class as an Interface.
 Start the registry first in the `bin` directory (or the same as you start the server)
-* **RMI Client**: Handles commands and executes them via the Whiteboard remote Interface. The interaction is the as for the RPC example with the principal commands: *create*, *put*, *get*, and *delete*. 
+* **RMI Client**: Handles commands and executes them via the Whiteboard remote Interface. The interaction is the same as for the RPC example with the principal commands: *create*, *put*, *get*, and *delete*. 
 * *consists of 3 packages*: 
   + rmiserver: 
   + rmiinterface: 
