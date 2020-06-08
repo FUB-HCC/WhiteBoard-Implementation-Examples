@@ -27,7 +27,7 @@ Start the registry first in the `bin` directory (or the same as you start the se
   + `java rmiserver.WhiteBoardService`
   + `java rmicient.Client`
 * *alternative run*: 
-  + `bash startServer.sh` complies all classes, starts the rmiregistry and the WhiteBoardService, kills the rmiregistry on server termination. 
+  + `bash startServer.sh` complies all classes, starts the *rmiregistry* and the WhiteBoardService, kills the *rmiregistry* on server termination. 
   + `bash startCient.sh` starts the client. 
 ## 3. P2P
 * **Peers**: 
