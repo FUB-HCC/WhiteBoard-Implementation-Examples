@@ -26,7 +26,7 @@ public class Client {
 			out.println(message);
 			
 			String answer = in.readLine();
-			System.out.println(answer);
+			System.out.println("echo: " + answer);
 		}
 		in.close();
 		out.close();
