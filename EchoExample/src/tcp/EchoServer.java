@@ -6,7 +6,8 @@ import java.net.*;
 public class EchoServer {
 	public static void main(String args[]) throws IOException {
 
-		ServerSocket listen = new ServerSocket(Integer.parseInt(args[0])); // set port
+		@SuppressWarnings("resource")
+		ServerSocket listen = new ServerSocket(1234); // set port
 
 		while (true) { // non-terminating server
 

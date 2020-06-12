@@ -11,7 +11,7 @@ public class Client {
 	 */
 	public static void main(String args[]) throws IOException { 
 
-		Socket socket = new Socket(args[0], Integer.parseInt(args[1])); 
+		Socket socket = new Socket("localhost", 1234); 
 
 		PrintStream out = new PrintStream(socket.getOutputStream());
 		
