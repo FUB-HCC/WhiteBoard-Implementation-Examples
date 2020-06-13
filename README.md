@@ -7,25 +7,25 @@ Five examples of how to implement a WhiteBoard PRC RMI P2P Cloud and Web
     + **EchoServer**: Handling one client at a time on port `12345` and sends back the echo changing "i" to "o".
     + **EchoServerExtended**: Is of the same functionality as *EchoServer*, but handles multiple clients concurrently. 
     + *compile*: `javac -d bin -cp src src/tcp/*.java`
-    + *run*: 
-      `java tcp.EchoServer` or `java tcp.EchoServerExtended` 
-      `java tcp.Client` 
-
+    + *run*:        
+        `java tcp.EchoServer` or `java tcp.EchoServerExtended`      
+        `java tcp.Client`   
+    
 * **UDP**: 
   + **UDPClient**: Is sending *one* input from *stdin* as a datagram packet to the *UDPServer* and prints its responds.
   + **UDPServer**: Receives datagram packets on port `9876` und echoes them back to the client. 
   + *compile*: `javac -d bin -cp src src/udp/*.java`
-  + *run*: 
-      `java udp.UDPServer`
-      `java udp.UDPClient` 
+  + *run*:  
+    `java udp.UDPServer`      
+    `java udp.UDPClient`    
 
 ## 2.1 RPC Example Simple
 * **RPC Simple Server**: Handling only one client at a time and has the same service as the *RPC Server*.
 * **Client**: Same as *2.1 RPC Client*
 * *compile*: `javac -d bin -cp src src/rpc/*.java`
-* *run*: 
-      `java rpc.SimpleServer`
-      `java rpc.Client` 
+* *run*:     
+    `java rpc.SimpleServer`     
+    `java rpc.Client` 
 
 ## 2.2 RPC Example
 * **Server**: Handling multiple clients in Threads and executing changes on the Whiteboard. 
@@ -34,9 +34,9 @@ Command **stop**: The client shuts down and the connection closes.
 The principal commands are: *create*, *put*, *get*, and *delete*. 
 Other commands are interactively described by the Whiteboard service.
 * *compile*: `javac -d bin -cp src src/rpc/*.java`
-* *run*: 
-      `java rpc.Server`
-      `java rpc.Client` 
+* *run*:        
+    `java rpc.Server`       
+    `java rpc.Client`        
 
 
 
@@ -49,10 +49,10 @@ Start the registry first in the `bin` directory (or the same as you start the se
   + rmiinterface: 
   + rmiclient:
 * *compile*: `javac -d bin -cp src src/*/*.java` or with you IDE relying on the *.classpath* file
-* *run*: 
-  + `java rmiserver.WhiteBoardService`
-  + `java rmicient.Client`
-
+* *run*:        
+    `java rmiserver.WhiteBoardService`    
+    `java rmicient.Client`      
+  
 ## 4. P2P Example
 * **Peers**: 
 + [whiteborad solution](https://medium.com/bpxl-craft/building-a-peer-to-peer-whiteboarding-app-for-ipad-2a4c7728863e)  
