@@ -1,7 +1,10 @@
 package rmiserver;
 
 import java.rmi.Naming;
+import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
@@ -73,7 +76,10 @@ public class WhiteBoardService extends UnicastRemoteObject implements WhiteBoard
      */
     public static void main(String[] args){
 		try {
-			Naming.rebind("//localhost/WhiteBoard", new WhiteBoardService());  // binding the remote object to an url using the default port 1099 of the rmiregistry        
+			Registry registry = LocateRegistry.createRegistry(1099);
+			WhiteBoardService aWhiteBoard = new WhiteBoardService();
+//			WhiteBoardService stub = (WhiteBoardService) UnicastRemoteObject.exportObject(aWhiteBoard,0); 
+			registry.rebind("WhiteBoard", aWhiteBoard);  // binding the remote object to an url using the default port 1099 of the rmiregistry        
             System.err.println("Server ready");
             
         } catch (Exception e) {
