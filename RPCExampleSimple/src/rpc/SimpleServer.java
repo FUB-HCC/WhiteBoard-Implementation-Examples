@@ -30,7 +30,8 @@ public class SimpleServer {
         }
     }
     public static void main(String[] args) throws IOException{
-        SimpleServer server = new SimpleServer(12345);
+        int PORT = 12345;
+        SimpleServer server = new SimpleServer(PORT);
         try {
             server.startServer();
         } catch (Exception e) {

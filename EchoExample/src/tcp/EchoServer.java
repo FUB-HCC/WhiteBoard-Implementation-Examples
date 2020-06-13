@@ -1,12 +1,17 @@
 package tcp;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 
 public class EchoServer {
 	public static void main(String args[]) throws IOException {
-
-		ServerSocket listen = new ServerSocket(Integer.parseInt(args[0])); // set port
+		int PORT = 12345; 
+		ServerSocket listen = new ServerSocket(PORT); // set port
 
 		while (true) { // non-terminating server
 
