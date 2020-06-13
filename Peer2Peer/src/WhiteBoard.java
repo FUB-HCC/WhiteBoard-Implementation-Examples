@@ -10,8 +10,6 @@ import java.util.ArrayList;
 * get shape by id from Whiteboard
 */
 
-
-
 public class WhiteBoard {
     private ArrayList<Shape> board;
     private int shapeIdCounter;
