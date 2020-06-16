@@ -8,17 +8,20 @@ public class ListenThread extends Thread {
 
     private WhiteBoard whiteBoard;
     private ServerSocket serverListen;
+    private boolean exit;
 
     public ListenThread(WhiteBoard wb, ServerSocket serverListen) {
         this.whiteBoard = wb;
         this.serverListen = serverListen;
+        this.exit = false; 
     }
     public void run() {
         try{
-            while (true) {
-                System.out.println("Peer is Listening......");
+            System.out.println(String.format("Peer is Listening on port %s ......", this.serverListen.getLocalPort()));
+
+            while (!this.exit) {
                 Socket socket = this.serverListen.accept();
-                PeerConnection pc = new PeerConnection(socket, this.whiteBoard);
+                PeerConnection pc = new PeerConnection(this.whiteBoard, socket, socket.getLocalAddress().getHostAddress(), socket.getLocalPort());
                 pc.sendPeerId(this.whiteBoard.getPeerId()); 
                 int sig = pc.getSignalFromPeer();
                 if( sig == 1) {
@@ -29,9 +32,15 @@ public class ListenThread extends Thread {
     
                 System.out.println(String.format("connected to new peer on %s %d", socket.getInetAddress().getHostAddress(), socket.getLocalPort())); 
             }
+            this.serverListen.close();
         }
         catch (IOException e) {
             e.printStackTrace();
+            System.exit(1);
         }
+    }
+
+    public void stopListen(){
+        this.exit = true;
     }
 }

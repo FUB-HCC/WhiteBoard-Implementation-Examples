@@ -3,8 +3,8 @@ package p2p;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
+import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 
 public class PeerConnection extends Thread {
@@ -13,29 +13,40 @@ public class PeerConnection extends Thread {
     private WhiteBoard whiteBoard;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+    private String host;
+    private int port;
+    private boolean exit;
     /**
      * 
      * @param socket
      * @param whiteBoard
      */
-    PeerConnection(final Socket socket, WhiteBoard whiteBoard) throws IOException {
-        this.socket = socket;
+    PeerConnection(WhiteBoard whiteBoard, Socket socket, String host, int port) throws IOException {
         this.whiteBoard = whiteBoard;
+        this.socket = socket;
+        this.host = host; 
+        this.port = port;
         this.out = new ObjectOutputStream(this.socket.getOutputStream());
         this.out.flush();
         this.in = new ObjectInputStream(this.socket.getInputStream());
+        this.exit = false;
     }
     public void sendEdit(EditRecord edit) throws IOException {
         this.out.writeObject(edit);
         this.out.flush();
     }
-    public String[] getPeerAdressListAndEditRecord() throws ClassNotFoundException, IOException {
+    public String[] getPeerAdressListAndEditRecord() throws IOException {
         this.out.writeInt(1); // tell the first Peer you need all data
         this.out.flush();
-        String[] adressList = (String[]) this.in.readObject();
-        EditRecord[] editRecord = (EditRecord[]) this.in.readObject();
-        this.whiteBoard.addAllEditRecord(editRecord);
-        return adressList;
+        try {
+            String[] adressList = (String[]) this.in.readObject();
+            EditRecord[] editRecord = (EditRecord[]) this.in.readObject();
+            this.whiteBoard.addAllEditRecord(editRecord);
+            return adressList;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     public void sendPeerAdressListAndEditRecord() throws IOException {
         ArrayList<PeerConnection> pcList = this.whiteBoard.getPeerConnections(); 
@@ -51,8 +62,7 @@ public class PeerConnection extends Thread {
 	}
     
     public String getPeerAddrees() {
-        InetAddress address = this.socket.getLocalAddress(); 
-        String addressAndPort = String.format("%s %d", address.getHostAddress(), this.socket.getLocalPort());
+        String addressAndPort = String.format("%s %d", this.host, this.port);
         System.out.println(addressAndPort);
         return addressAndPort;
     }
@@ -60,25 +70,19 @@ public class PeerConnection extends Thread {
     @Override
     public void run() {
         EditRecord edit;
-        boolean running = true;
-        while (running) { 
-            try {
-                edit = (EditRecord) in.readObject();
-                System.out.println(String.format("received: %s", edit.getShape().toString()));
-                this.whiteBoard.addEditRecord(edit);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                running = false;
-            } catch (IOException e) {
-                running = false;
-                e.printStackTrace();
-            }
-        }
         try {
+            while (!this.exit) { 
+                edit = (EditRecord) in.readObject();
+                this.whiteBoard.addEditRecord(edit);
+            }
             this.in.close();
             this.out.close();
             this.socket.close();
-        } catch (Exception e) {
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            this.exit = false;
+        } catch (IOException e) {
+            this.exit = false;
             e.printStackTrace();
         }
     }
@@ -94,5 +98,8 @@ public class PeerConnection extends Thread {
 	public void sendPeerId(int peerId) throws IOException {
         this.out.writeInt(peerId);
         this.out.flush();
+	}
+	public void stopConnection() throws IOException {
+        this.exit = true;
 	}
 }

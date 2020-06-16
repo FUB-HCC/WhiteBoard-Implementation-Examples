@@ -25,7 +25,7 @@ public class Peer {
     static String welcomeMessage = String.format("Welcome to this Whiteboard service! %s", useHelpMessage);
     static String goodbyMessage = "goodby :)";
 
-    private ServerSocket serverListen;
+    private ListenThread listen;
     private WhiteBoard whiteBoard;
     private Shape currentShape;
     private BufferedReader in;
@@ -38,10 +38,10 @@ public class Peer {
      */
     public Peer(int port, String firstPeerAdress, int firstPeerPort) throws IOException {
         this.whiteBoard = new WhiteBoard(1);
-        this.serverListen = new ServerSocket(port);
+        this.listen = new ListenThread(this.whiteBoard, new ServerSocket(port)); 
         this.currentShape = null;
         this.in = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(String.format("init Peer on port %d", this.serverListen.getLocalPort()));
+        System.out.println(String.format("init Peer on port %d", port));
         connectToFirstPeer(firstPeerAdress, firstPeerPort);
         // this.whiteBoard = new WhiteBoard(); // one shared Whiteboard between all
         // Threats created on this server
@@ -49,71 +49,61 @@ public class Peer {
 
     public Peer(int port) throws IOException { // first peer
         this.whiteBoard = new WhiteBoard(1); // first peerId is 1 
-        this.serverListen = new ServerSocket(port);
+        this.listen = new ListenThread(this.whiteBoard, new ServerSocket(port)); 
         this.currentShape = null;
         this.in = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(String.format("init Peer on port %d", this.serverListen.getLocalPort()));
+        System.out.println(String.format("init Peer on port %d", port));
     }
 
     private void connectToFirstPeer(String firstPeerAdress, int firstPeerPort)
-            throws UnknownHostException, IOException {
+            throws IOException {
         Socket socket = new Socket(firstPeerAdress, firstPeerPort);
-        PeerConnection firstPC = new PeerConnection(socket, this.whiteBoard);
+        PeerConnection firstPC = new PeerConnection(this.whiteBoard, socket, socket.getInetAddress().getHostAddress(), socket.getPort());
         this.whiteBoard.addPeerConnection(firstPC);
-        try {
-            int peerID = firstPC.receivePeerId(); 
-            int maxPeerId = peerID; 
-            String[] adressList = firstPC.getPeerAdressListAndEditRecord();
-            firstPC.start();
-            for(String adress : adressList ) {
-                String host = adress.split(" ")[0];
-                int port = Integer.parseInt( adress.split(" ")[1] );
-                Socket s = new Socket(host, port); 
-                PeerConnection newPC = new PeerConnection(s, this.whiteBoard);
-                peerID = newPC.receivePeerId();
-                if (peerID > maxPeerId ) { maxPeerId = peerID; }
-                newPC.sendSignalToPeer(0); 
-                newPC.start();
-                this.whiteBoard.addPeerConnection(newPC);
-            }
-            this.whiteBoard.setPeerId(maxPeerId+1);
-
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } 
+        int peerID = firstPC.receivePeerId(); 
+        int maxPeerId = peerID; 
+        String[] adressList = firstPC.getPeerAdressListAndEditRecord();
+        firstPC.start();
+        for(String adress : adressList ) {
+            String host = adress.split(" ")[0];
+            int port = Integer.parseInt( adress.split(" ")[1] );
+            socket = new Socket(host, port); 
+            PeerConnection newPC = new PeerConnection(this.whiteBoard, socket, socket.getInetAddress().getHostAddress(), socket.getPort());
+            peerID = newPC.receivePeerId();
+            if (peerID > maxPeerId ) { maxPeerId = peerID; }
+            newPC.sendSignalToPeer(0); 
+            newPC.start();
+            this.whiteBoard.addPeerConnection(newPC);
+        }
+        this.whiteBoard.setPeerId(maxPeerId+1);
     }
-    private void broadcastEditToPeers(EditRecord edit) {
+    private void broadcastEditToPeers(EditRecord edit) throws IOException {
         for( PeerConnection pc : this.whiteBoard.getPeerConnections()) {
-            try {
-                pc.sendEdit(edit);
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            pc.sendEdit(edit);
         }
     }
-    /**
-     * Starts the Server and does all the control for incoming connections assigned to Threads, secret MAIN ;) 
-     */
-    public void startServer() throws IOException{
-        new ListenThread(this.whiteBoard, this.serverListen).start();
-        startInputHandler();
+   
+    public void startInputHandler() throws IOException {
+        this.listen.start();
+
+        System.out.println(welcomeMessage);
+        String messageIn = "";
+        while (!messageIn.equals("stop")) {
+            messageIn = this.in.readLine();
+            handleCommand(messageIn);
+        }
+        closeAllConnections();
+    }
+    
+    private void closeAllConnections() throws IOException {
+        this.in.close();
+
+        for (PeerConnection pc : this.whiteBoard.getPeerConnections()) {
+            pc.stopConnection();
+        }
+        this.listen.stopListen();
     }
 
-    public void startInputHandler() {
-        System.out.println(welcomeMessage);
-        try {
-            String messageIn = "";
-            while (!messageIn.equals("stop")) {
-                messageIn = this.in.readLine();
-                handleCommand(messageIn);
-            }
-            this.in.close();
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
-    }
     /**
      * 
      * @param command
@@ -171,8 +161,6 @@ public class Peer {
                 System.out.println(defaultMessage);
         }
     }
-    
-
     /**
      * returns the corresponding Message if an operation was successful or not
      * 
@@ -202,9 +190,9 @@ public class Peer {
         }
         
         try {
-            peer.startServer();
+            peer.startInputHandler();
         } catch (Exception e) {
-            System.err.println("Server coudn't be started");
+            System.err.println("Could not start Peer");
             e.printStackTrace();
 			System.exit(1);
         }
