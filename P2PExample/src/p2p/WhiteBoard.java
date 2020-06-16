@@ -99,6 +99,7 @@ public class WhiteBoard {
     public EditRecord placeShape(Shape shape){
         this.board.add(shape);
         EditRecord edit = new EditRecord(Edit.add, shape, this.logicalTime++, this.peerId);
+        this.record.add(edit); 
         return edit;
     }
     

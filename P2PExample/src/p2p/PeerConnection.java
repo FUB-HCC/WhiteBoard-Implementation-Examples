@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class PeerConnection extends Thread {
 
     private final Socket socket;
-    private final WhiteBoard whiteBoard;
+    private WhiteBoard whiteBoard;
     private ObjectInputStream in;
     private ObjectOutputStream out;
     /**
@@ -18,13 +18,12 @@ public class PeerConnection extends Thread {
      * @param socket
      * @param whiteBoard
      */
-    PeerConnection(final Socket socket, final WhiteBoard whiteBoard) throws IOException {
+    PeerConnection(final Socket socket, WhiteBoard whiteBoard) throws IOException {
         this.socket = socket;
         this.whiteBoard = whiteBoard;
         this.out = new ObjectOutputStream(this.socket.getOutputStream());
         this.out.flush();
         this.in = new ObjectInputStream(this.socket.getInputStream());
-        System.out.println("new peer connection to ");
     }
     public void sendEdit(EditRecord edit) throws IOException {
         this.out.writeObject(edit);
@@ -42,7 +41,7 @@ public class PeerConnection extends Thread {
         ArrayList<PeerConnection> pcList = this.whiteBoard.getPeerConnections(); 
         String[] adressList = new String[pcList.size()]; 
         for (int i = 0; i < pcList.size(); i++) {
-            adressList[i] = pcList.get(i).getPeerAdrees(); 
+            adressList[i] = pcList.get(i).getPeerAddrees(); 
         }
         this.out.writeObject(adressList);
         this.out.flush();
@@ -51,9 +50,11 @@ public class PeerConnection extends Thread {
         this.out.flush();
 	}
     
-    private String getPeerAdrees() {
+    public String getPeerAddrees() {
         InetAddress address = this.socket.getLocalAddress(); 
-        return String.format("%s %d", address.getHostAddress(), this.socket.getLocalPort());
+        String addressAndPort = String.format("%s %d", address.getHostAddress(), this.socket.getLocalPort());
+        System.out.println(addressAndPort);
+        return addressAndPort;
     }
 
     @Override

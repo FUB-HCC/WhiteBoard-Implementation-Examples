@@ -41,7 +41,7 @@ public class Peer {
         this.serverListen = new ServerSocket(port);
         this.currentShape = null;
         this.in = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(String.format("init Peer in port %d", this.serverListen.getLocalPort()));
+        System.out.println(String.format("init Peer on port %d", this.serverListen.getLocalPort()));
         connectToFirstPeer(firstPeerAdress, firstPeerPort);
         // this.whiteBoard = new WhiteBoard(); // one shared Whiteboard between all
         // Threats created on this server
@@ -52,7 +52,7 @@ public class Peer {
         this.serverListen = new ServerSocket(port);
         this.currentShape = null;
         this.in = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(String.format("init Peer in port %d", this.serverListen.getLocalPort()));
+        System.out.println(String.format("init Peer on port %d", this.serverListen.getLocalPort()));
     }
 
     private void connectToFirstPeer(String firstPeerAdress, int firstPeerPort)
@@ -63,8 +63,8 @@ public class Peer {
         try {
             int peerID = firstPC.receivePeerId(); 
             int maxPeerId = peerID; 
-            System.out.println(peerID);
             String[] adressList = firstPC.getPeerAdressListAndEditRecord();
+            firstPC.start();
             for(String adress : adressList ) {
                 String host = adress.split(" ")[0];
                 int port = Integer.parseInt( adress.split(" ")[1] );

@@ -5,6 +5,9 @@
     "version": "0.2.0",
     "configurations": [
 
+
+
+
         {
             "type": "java",
             "name": "Debug (Launch) - Current File",
@@ -54,6 +57,23 @@
             "projectName": "P2PExample",
             "args": ["12344", "localhost", "12345"]
 
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Peer3",
+            "request": "launch",
+            "mainClass": "p2p.Peer",
+            "projectName": "P2PExample",
+            "args": ["12323", "localhost", "12344"]
+
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Peer4",
+            "request": "launch",
+            "mainClass": "p2p.Peer",
+            "projectName": "P2PExample",
+            "args": ["12311", "localhost", "12345"]
         },
         {
             "type": "java",
