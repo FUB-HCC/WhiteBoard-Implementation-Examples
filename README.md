@@ -54,7 +54,12 @@ Start the registry first in the `bin` directory (or the same as you start the se
     `java rmicient.Client`      
   
 ## 4. P2P Example
-* **Peers**: 
+* **Peers**: Start first one Peer with its port and all others with port and the host and port of one known Peer in the network. 
+    * *compile*: `javac -d bin -cp src src/*.java` or with you IDE relying on the *.classpath* file
+    * *run*:        
+    `java p2p.Peer 12345`    
+    `java p2p.Peer 12344 localhost 12345` 
+
 + [whiteborad solution](https://medium.com/bpxl-craft/building-a-peer-to-peer-whiteboarding-app-for-ipad-2a4c7728863e)  
 the action of a peer is broadcasted to all others, each action has a logical time-stamp, and ever peer records a sorted array of all actions to generate a consistent state of the whiteboard. 
 + which peer holds what data? 
