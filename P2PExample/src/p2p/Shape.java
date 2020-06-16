@@ -1,6 +1,11 @@
-package rmiinterface;
+package p2p;
 
 import java.io.Serializable;
+
+enum ENUMShape {
+    triangle, rectangle, circle
+   }
+   
 /**
  * implements Serializable for referencing over the remote interface 
  */
