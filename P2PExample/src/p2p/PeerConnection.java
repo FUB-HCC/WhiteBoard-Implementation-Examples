@@ -62,7 +62,6 @@ public class PeerConnection extends Thread {
     
     public String getPeerAddress() {
         String addressAndPort = String.format("%s %d", this.host, this.port);
-        System.out.println(addressAndPort);
         return addressAndPort;
     }
 
@@ -73,15 +72,19 @@ public class PeerConnection extends Thread {
             while (!this.exit) { 
                 edit = (EditRecord) in.readObject();
                 this.whiteBoard.addEditRecord(edit);
+                if (edit == null){
+                    close(); 
+                    break; // if socket closes 
+                }
             }
             this.in.close();
             this.out.close();
             this.socket.close();
         } catch (ClassNotFoundException e) {
+            close(); 
             e.printStackTrace();
-            this.exit = false;
         } catch (IOException e) {
-            this.exit = false;
+            close();
             e.printStackTrace();
         }
     }
@@ -97,8 +100,20 @@ public class PeerConnection extends Thread {
 	public void sendPeerId(int peerId) throws IOException {
         this.out.writeInt(peerId);
         this.out.flush();
+    }
+    public void receivePort() throws IOException {
+		this.port = this.in.readInt();
+	}
+    public void sendPeerPort(int port) throws IOException {
+        this.out.writeInt(port);
+        this.out.flush();
 	}
 	public void stopConnection() throws IOException {
         this.exit = true;
-	}
+    }
+    private void close() {// removes PeerConnection from list when socket dies
+        this.exit = false;
+        this.whiteBoard.removePeerConnection(this); 
+        System.out.println(String.format("removed PeerConnection: %s %d", this.host, this.port));
+    }
 }

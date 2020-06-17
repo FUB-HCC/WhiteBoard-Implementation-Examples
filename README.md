@@ -61,3 +61,5 @@ Start the registry first in the `bin` directory (or the same as you start the se
     `java p2p.Peer 12344 localhost 12345` 
 
 Each edit on the Whiteboard of a Peer is broadcasted to all others. An edit has a logical time-stamp, and every Peer records a sorted array of all edits to generate a consistent state of the Whiteboard. 
+The **Whiteboard** class is the shared instance between the different Threads, where the data abound the Peer2Peer network and the Whiteboard ist stored and loaded. 
+The **PeerConnection** class takes care of all communication on one socket connection, and is running a thread the receive broadcasted edits from the connected Peer. 

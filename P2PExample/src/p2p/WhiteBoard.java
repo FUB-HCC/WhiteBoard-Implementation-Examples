@@ -15,10 +15,18 @@ import java.util.Collections;
 */
 
 
+/**
+ * @connections - connections to all other peer, WhiteBoard is the share class between threads
+ * @record - state and place of unique truth 
+ * @logicalTime - shared between all peers to generate an ordering of EditRecords 
+ * @board - representation of the whiteboard state
+ * @peerId - to reference the user of any edit
+ * 
+ */
 public class WhiteBoard {
     
     private ArrayList<Shape> board;
-    private ArrayList<EditRecord> record;
+    private ArrayList<EditRecord> record; 
     private ArrayList<PeerConnection> connections;
     private int logicalTime;
     private int peerId;
@@ -49,9 +57,11 @@ public class WhiteBoard {
 
     public void updateLogicalTime() {
         int lastIndex = this.record.size()-1;
-        this.logicalTime = this.record.get(lastIndex).getLogicalTimestamp(); 
+        this.logicalTime = this.record.get(lastIndex).getLogicalTimestamp() + 1; 
     }
-
+    /**
+     * generates the state of the board 
+     */
     public void buildBoardFromRecord() {
         this.board.clear();
         Collections.sort(this.record); 
@@ -59,7 +69,7 @@ public class WhiteBoard {
             if (e.getEdit()==Edit.add){
                 this.board.add(e.getShape());
             } else {
-                this.board.remove(e.getShape());
+                this.board.remove(getShape(e.getShape().id)); //remove shape from board by reference 
             }
         }
     }
@@ -98,17 +108,19 @@ public class WhiteBoard {
 
     public EditRecord placeShape(Shape shape){
         this.board.add(shape);
-        EditRecord edit = new EditRecord(Edit.add, shape, this.logicalTime++, this.peerId);
+        EditRecord edit = new EditRecord(Edit.add, shape, this.logicalTime, this.peerId);
         this.record.add(edit); 
+        this.logicalTime ++; 
         return edit;
     }
     
     public EditRecord removeShape(int shapeID){
         Shape shape = this.getShape(shapeID);
-        EditRecord edit = new EditRecord(Edit.remove, shape, this.logicalTime++, this.peerId);
+        EditRecord edit = new EditRecord(Edit.remove, shape, this.logicalTime, this.peerId);
         boolean flag =  this.board.remove(shape);
         if(flag) {
             this.record.add(edit);
+            this.logicalTime ++; 
             return edit;
         }
         return null;
@@ -118,8 +130,14 @@ public class WhiteBoard {
         this.connections.add(pc);
     }
 
+    public void removePeerConnection(PeerConnection pc) {
+        this.connections.remove(pc);
+	}
+
     public ArrayList<PeerConnection> getPeerConnections() {
         return this.connections; 
     }
+
+	
     
 }

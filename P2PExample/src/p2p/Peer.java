@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Peer {
     static String useHelpMessage = "For more information on how to use this service type: \"help\"";
@@ -29,6 +28,7 @@ public class Peer {
     private WhiteBoard whiteBoard;
     private Shape currentShape;
     private BufferedReader in;
+    private int port;
 
     /**
      * port to server
@@ -36,13 +36,13 @@ public class Peer {
      * @param port used to connect to client
      * 
      */
-    public Peer(int port, String firstPeerAdress, int firstPeerPort) throws IOException {
+    public Peer(int port, String firstPeerHost, int firstPeerPort) throws IOException {
+        this.port = port; 
         this.whiteBoard = new WhiteBoard(1);
         this.listen = new ListenThread(this.whiteBoard, new ServerSocket(port)); 
         this.currentShape = null;
         this.in = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(String.format("init Peer on port %d", port));
-        connectToFirstPeer(firstPeerAdress, firstPeerPort);
+        connectToFirstPeer(firstPeerHost, firstPeerPort);
         // this.whiteBoard = new WhiteBoard(); // one shared Whiteboard between all
         // Threats created on this server
     }
@@ -52,15 +52,17 @@ public class Peer {
         this.listen = new ListenThread(this.whiteBoard, new ServerSocket(port)); 
         this.currentShape = null;
         this.in = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println(String.format("init Peer on port %d", port));
     }
 
-    private void connectToFirstPeer(String firstPeerAdress, int firstPeerPort)
+    private void connectToFirstPeer(String firstPeerHost, int firstPeerPort)
             throws IOException {
-        Socket socket = new Socket(firstPeerAdress, firstPeerPort);
-        PeerConnection firstPC = new PeerConnection(this.whiteBoard, socket, socket.getInetAddress().getHostAddress(), socket.getPort());
+
+        Socket socket = new Socket(firstPeerHost, firstPeerPort);
+        PeerConnection firstPC = new PeerConnection(this.whiteBoard, socket, firstPeerHost, firstPeerPort);
         this.whiteBoard.addPeerConnection(firstPC);
+        firstPC.sendPeerPort(this.port);
         int peerID = firstPC.receivePeerId(); 
+
         int maxPeerId = peerID; 
         String[] adressList = firstPC.getPeerAddressListAndEditRecord();
         firstPC.start();
@@ -68,15 +70,18 @@ public class Peer {
             String host = adress.split(" ")[0];
             int port = Integer.parseInt( adress.split(" ")[1] );
             socket = new Socket(host, port); 
-            PeerConnection newPC = new PeerConnection(this.whiteBoard, socket, socket.getInetAddress().getHostAddress(), socket.getPort());
+            PeerConnection newPC = new PeerConnection(this.whiteBoard, socket, host, port);
+            this.whiteBoard.addPeerConnection(newPC);
+            newPC.sendPeerPort(this.port);
             peerID = newPC.receivePeerId();
             if (peerID > maxPeerId ) { maxPeerId = peerID; }
             newPC.sendSignalToPeer(0); 
             newPC.start();
-            this.whiteBoard.addPeerConnection(newPC);
+            
         }
         this.whiteBoard.setPeerId(maxPeerId+1);
     }
+
     private void broadcastEditToPeers(EditRecord edit) throws IOException {
         for( PeerConnection pc : this.whiteBoard.getPeerConnections()) {
             pc.sendEdit(edit);
