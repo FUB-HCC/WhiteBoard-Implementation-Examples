@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Peer {
+    
     static String useHelpMessage = "For more information on how to use this service type: \"help\"";
     static String helpInfo = String.format(
             "There are four services: \"create\", \"put\", \"delete\" and \"get\", please select one. To quit the connection type: \"stop\". When a Shape is created, use \"put\" to place the Shape onto the WhiteBoard");
@@ -60,6 +61,7 @@ public class Peer {
     }
 
     /**
+     * only call in initialization to connect the existing network 
      * Connects to the know Peer, receives the addresses of all other Peers in the network and establishes all PeerConnections
      * @param firstPeerHost
      * @param firstPeerPort
@@ -76,7 +78,8 @@ public class Peer {
 
         int maxPeerId = peerID; 
         String[] adressList = firstPC.getPeerAddressListAndEditRecord();
-        firstPC.start();
+        firstPC.start(); // start the thread to receive new EditRecords on the Whiteboard 
+
         for(String adress : adressList ) {
             String host = adress.split(" ")[0];
             int port = Integer.parseInt( adress.split(" ")[1] );
@@ -86,9 +89,8 @@ public class Peer {
             newPC.sendPeerPort(this.port);
             peerID = newPC.receivePeerId();
             if (peerID > maxPeerId ) { maxPeerId = peerID; }
-            newPC.sendSignalToPeer(0);
+            newPC.sendSignalToPeer(0); // signals that Peer is already connected to the network
             newPC.start();
-            
         }
         this.whiteBoard.setPeerId(maxPeerId+1); // sets its unique id for the P2P network. 
     }
