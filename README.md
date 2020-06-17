@@ -1,5 +1,5 @@
 # WhiteBoard-Implementation-Examples
-Examples of a WhiteBoard Implementations using different architectural styles: PRC RMI P2P Cloud and Web
+Examples of WhiteBoard Implementations using different architectural styles: PRC RMI P2P Cloud and Web
 
 ## 1. EchoExample
 * **TCP**: 
