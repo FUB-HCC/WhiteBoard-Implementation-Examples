@@ -60,4 +60,4 @@ Start the registry first in the `bin` directory (or the same as you start the se
     `java p2p.Peer 12345`    
     `java p2p.Peer 12344 localhost 12345` 
 
-Each edit on the Whiteborad of a Peer is broadcasted to all others. An edit has a logical time-stamp, and every Peer records a sorted array of all edits to generate a consistent state of the Whiteboard. 
+Each edit on the Whiteboard of a Peer is broadcasted to all others. An edit has a logical time-stamp, and every Peer records a sorted array of all edits to generate a consistent state of the Whiteboard. 
