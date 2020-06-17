@@ -62,7 +62,7 @@ public class Peer {
         this.whiteBoard.addPeerConnection(firstPC);
         int peerID = firstPC.receivePeerId(); 
         int maxPeerId = peerID; 
-        String[] adressList = firstPC.getPeerAdressListAndEditRecord();
+        String[] adressList = firstPC.getPeerAddressListAndEditRecord();
         firstPC.start();
         for(String adress : adressList ) {
             String host = adress.split(" ")[0];
@@ -84,7 +84,7 @@ public class Peer {
     }
    
     public void startInputHandler() throws IOException {
-        this.listen.start();
+        this.listen.start(); // listen for incoming peer connections 
 
         System.out.println(welcomeMessage);
         String messageIn = "";
@@ -93,6 +93,7 @@ public class Peer {
             handleCommand(messageIn);
         }
         closeAllConnections();
+        System.out.println("done!");
     }
     
     private void closeAllConnections() throws IOException {

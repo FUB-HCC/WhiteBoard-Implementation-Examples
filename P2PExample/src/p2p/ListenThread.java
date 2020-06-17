@@ -25,7 +25,7 @@ public class ListenThread extends Thread {
                 pc.sendPeerId(this.whiteBoard.getPeerId()); 
                 int sig = pc.getSignalFromPeer();
                 if( sig == 1) {
-                    pc.sendPeerAdressListAndEditRecord();
+                    pc.sendPeerAddressListAndEditRecord();
                 }
                 this.whiteBoard.addPeerConnection(pc);
                 pc.start(); //here a new Thread is stated that calls the run method of the WhiteBoardThread, which takes care closing the socket

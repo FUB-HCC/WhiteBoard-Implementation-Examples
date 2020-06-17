@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.rmi.activation.UnknownObjectException;
 import java.util.ArrayList;
 
 public class PeerConnection extends Thread {
@@ -35,33 +34,33 @@ public class PeerConnection extends Thread {
         this.out.writeObject(edit);
         this.out.flush();
     }
-    public String[] getPeerAdressListAndEditRecord() throws IOException {
+    public String[] getPeerAddressListAndEditRecord() throws IOException {
         this.out.writeInt(1); // tell the first Peer you need all data
         this.out.flush();
         try {
-            String[] adressList = (String[]) this.in.readObject();
+            String[] addressList = (String[]) this.in.readObject();
             EditRecord[] editRecord = (EditRecord[]) this.in.readObject();
             this.whiteBoard.addAllEditRecord(editRecord);
-            return adressList;
+            return addressList;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return null;
         }
     }
-    public void sendPeerAdressListAndEditRecord() throws IOException {
+    public void sendPeerAddressListAndEditRecord() throws IOException {
         ArrayList<PeerConnection> pcList = this.whiteBoard.getPeerConnections(); 
-        String[] adressList = new String[pcList.size()]; 
+        String[] addressList = new String[pcList.size()]; 
         for (int i = 0; i < pcList.size(); i++) {
-            adressList[i] = pcList.get(i).getPeerAddrees(); 
+            addressList[i] = pcList.get(i).getPeerAddress(); 
         }
-        this.out.writeObject(adressList);
+        this.out.writeObject(addressList);
         this.out.flush();
         EditRecord[] er = this.whiteBoard.getRecord().toArray(new EditRecord[0]);
         this.out.writeObject(er);
         this.out.flush();
 	}
     
-    public String getPeerAddrees() {
+    public String getPeerAddress() {
         String addressAndPort = String.format("%s %d", this.host, this.port);
         System.out.println(addressAndPort);
         return addressAndPort;
