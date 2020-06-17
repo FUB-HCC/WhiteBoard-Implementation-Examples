@@ -16,11 +16,11 @@ import java.util.Collections;
 
 
 /**
- * @connections - connections to all other peer, WhiteBoard is the share class between threads
- * @record - state and place of unique truth 
- * @logicalTime - shared between all peers to generate an ordering of EditRecords 
- * @board - representation of the whiteboard state
- * @peerId - to reference the user of any edit
+ * @param connections - connections to all other peer, WhiteBoard is the share class between threads
+ * @param record - state and place of unique truth 
+ * @param logicalTime - shared between all peers to generate an ordering of EditRecords 
+ * @param board - representation of the whiteboard state
+ * @param peerId - to reference the user of any edit
  * 
  */
 public class WhiteBoard {
@@ -31,6 +31,10 @@ public class WhiteBoard {
     private int logicalTime;
     private int peerId;
 
+    /**
+     * 
+     * @param peerId
+     */
     public WhiteBoard(int peerId){
         this.board = new ArrayList<Shape>();
         this.record = new ArrayList<EditRecord>();

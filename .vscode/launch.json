@@ -8,6 +8,9 @@
 
 
 
+
+
+
         {
             "type": "java",
             "name": "Debug (Launch) - Current File",
@@ -74,6 +77,14 @@
             "mainClass": "p2p.Peer",
             "projectName": "P2PExample",
             "args": ["12311", "localhost", "12345"]
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Peer2",
+            "request": "launch",
+            "mainClass": "p2p.Peer",
+            "projectName": "P2PExample",
+            "args": ["11111", "localhost", "12345"]
         },
         {
             "type": "java",

@@ -31,10 +31,11 @@ public class Peer {
     private int port;
 
     /**
-     * port to server
      * 
-     * @param port used to connect to client
-     * 
+     * @param port
+     * @param firstPeerHost
+     * @param firstPeerPort
+     * @throws IOException
      */
     public Peer(int port, String firstPeerHost, int firstPeerPort) throws IOException {
         this.port = port; 
@@ -46,7 +47,11 @@ public class Peer {
         // this.whiteBoard = new WhiteBoard(); // one shared Whiteboard between all
         // Threats created on this server
     }
-
+    /**
+     * 
+     * @param port
+     * @throws IOException
+     */
     public Peer(int port) throws IOException { // first peer
         this.whiteBoard = new WhiteBoard(1); // first peerId is 1 
         this.listen = new ListenThread(this.whiteBoard, new ServerSocket(port)); 
@@ -54,6 +59,12 @@ public class Peer {
         this.in = new BufferedReader(new InputStreamReader(System.in));
     }
 
+    /**
+     * Connects to the know Peer, receives the addresses of all other Peers in the network and establishes all PeerConnections
+     * @param firstPeerHost
+     * @param firstPeerPort
+     * @throws IOException
+     */
     private void connectToFirstPeer(String firstPeerHost, int firstPeerPort)
             throws IOException {
 
@@ -69,19 +80,24 @@ public class Peer {
         for(String adress : adressList ) {
             String host = adress.split(" ")[0];
             int port = Integer.parseInt( adress.split(" ")[1] );
-            socket = new Socket(host, port); 
-            PeerConnection newPC = new PeerConnection(this.whiteBoard, socket, host, port);
+            Socket newSocket = new Socket(host, port); 
+            PeerConnection newPC = new PeerConnection(this.whiteBoard, newSocket, host, port);
             this.whiteBoard.addPeerConnection(newPC);
             newPC.sendPeerPort(this.port);
             peerID = newPC.receivePeerId();
             if (peerID > maxPeerId ) { maxPeerId = peerID; }
-            newPC.sendSignalToPeer(0); 
+            newPC.sendSignalToPeer(0);
             newPC.start();
             
         }
-        this.whiteBoard.setPeerId(maxPeerId+1);
+        this.whiteBoard.setPeerId(maxPeerId+1); // sets its unique id for the P2P network. 
     }
 
+    /**
+     * Broadcasts an edit on the Whiteboard to all connected Peers
+     * @param edit
+     * @throws IOException
+     */
     private void broadcastEditToPeers(EditRecord edit) throws IOException {
         for( PeerConnection pc : this.whiteBoard.getPeerConnections()) {
             pc.sendEdit(edit);
@@ -98,7 +114,6 @@ public class Peer {
             handleCommand(messageIn);
         }
         closeAllConnections();
-        System.out.println("done!");
     }
     
     private void closeAllConnections() throws IOException {
@@ -198,10 +213,9 @@ public class Peer {
         try {
             peer.startInputHandler();
         } catch (Exception e) {
-            System.err.println("Could not start Peer");
+            System.err.println("Could not start Peer!");
             e.printStackTrace();
 			System.exit(1);
         }
-        
     }
 }

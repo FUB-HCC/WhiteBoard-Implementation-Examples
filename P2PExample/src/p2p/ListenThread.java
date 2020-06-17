@@ -3,7 +3,7 @@ package p2p;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.ServerException;
+import java.net.SocketException;
 
 public class ListenThread extends Thread {
 
@@ -11,6 +11,11 @@ public class ListenThread extends Thread {
     private ServerSocket serverListen;
     private boolean exit;
 
+    /**
+     * This thread listens for peer to connect and establishes a PeerConnection
+     * @param wb
+     * @param serverListen
+     */
     public ListenThread(WhiteBoard wb, ServerSocket serverListen) {
         this.whiteBoard = wb;
         this.serverListen = serverListen;
@@ -38,7 +43,7 @@ public class ListenThread extends Thread {
             }
             this.serverListen.close();
             System.out.println("Stop Listening");
-        } catch (ServerException e) { // socket closed by stopListen
+        } catch (SocketException e) { // socket closed by stopListen
             //e.printStackTrace(); 
         } catch (IOException e) {
             e.printStackTrace();
