@@ -1,8 +1,12 @@
 {
-    "spellright.language": [],
+    "spellright.language": [
+        "en",
+        "de"
+    ],
     "spellright.documentTypes": [
         "markdown",
         "latex",
         "plaintext"
-    ]
+    ],
+    "cSpell.enabled": true
 }

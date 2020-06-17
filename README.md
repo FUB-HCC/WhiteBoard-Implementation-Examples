@@ -60,7 +60,4 @@ Start the registry first in the `bin` directory (or the same as you start the se
     `java p2p.Peer 12345`    
     `java p2p.Peer 12344 localhost 12345` 
 
-+ [whiteborad solution](https://medium.com/bpxl-craft/building-a-peer-to-peer-whiteboarding-app-for-ipad-2a4c7728863e)  
-the action of a peer is broadcasted to all others, each action has a logical time-stamp, and ever peer records a sorted array of all actions to generate a consistent state of the whiteboard. 
-+ which peer holds what data? 
-+ who connects the peers to each other
+Each edit on the Whiteborad of a Peer is broadcasted to all others. An edit has a logical time-stamp, and every Peer records a sorted array of all edits to generate a consistent state of the Whiteboard. 
