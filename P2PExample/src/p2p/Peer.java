@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Peer {
-    
+
     static String useHelpMessage = "For more information on how to use this service type: \"help\"";
     static String helpInfo = String.format(
             "There are four services: \"create\", \"put\", \"delete\" and \"get\", please select one. To quit the connection type: \"stop\". When a Shape is created, use \"put\" to place the Shape onto the WhiteBoard");
@@ -106,7 +106,10 @@ public class Peer {
         }
     }
    
-    public void startInputHandler() throws IOException {
+    /**
+     * @throws IOException
+     */
+    public void startPeer() throws IOException {
         this.listen.start(); // listen for incoming peer connections 
 
         System.out.println(welcomeMessage);
@@ -117,18 +120,8 @@ public class Peer {
         }
         closeAllConnections();
     }
-    
-    private void closeAllConnections() throws IOException {
-        this.in.close();
-
-        for (PeerConnection pc : this.whiteBoard.getPeerConnections()) {
-            pc.stopConnection();
-        }
-        this.listen.stopListen();
-    }
-
     /**
-     * 
+     * interprets the input from 
      * @param command
      * @throws IOException
      */
@@ -185,21 +178,26 @@ public class Peer {
         }
     }
     /**
-     * returns the corresponding Message if an operation was successful or not
-     * 
      * @param status
-     * @return message
+     * @return      the corresponding Message if an operation was successful or not
      */
-    public String getStatusMessage(boolean status) {
+    private String getStatusMessage(boolean status) {
         if (status){
             return successMessage;
         } else {
             return failureMessage;
         }
     }
+    private void closeAllConnections() throws IOException {
+        this.in.close();
+        for (PeerConnection pc : this.whiteBoard.getPeerConnections()) {
+            pc.stopConnection();
+        }
+        this.listen.stopListen();
+    }
 
-    public static void main(String[] args) throws IOException{
-        Peer peer;
+    public static void main(String[] args) throws Exception {
+        Peer peer = null;
         if (args.length == 3){
             int PORT = Integer.parseInt( args[0] );
             String firstPeerHost = args[1];
@@ -209,11 +207,12 @@ public class Peer {
             int PORT = Integer.parseInt( args[0] );
             peer = new Peer(PORT);
         } else {
-            peer = null; 
+            System.out.println("Could not create Peer! missing PORT\n run: java p2p.Peer <PORT> or java p2p.Peer <PORT> <host> <port>"); 
+            System.exit(1);
         }
         
         try {
-            peer.startInputHandler();
+            peer.startPeer();
         } catch (Exception e) {
             System.err.println("Could not start Peer!");
             e.printStackTrace();
