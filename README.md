@@ -1,5 +1,5 @@
 # WhiteBoard-Implementation-Examples
-Five examples of how to implement a WhiteBoard PRC RMI P2P Cloud and Web
+Examples of a WhiteBoard Implementations using different architectural styles: PRC RMI P2P Cloud and Web
 
 ## 1. EchoExample
 * **TCP**: 
@@ -54,7 +54,7 @@ Start the registry first in the `bin` directory (or the same as you start the se
     `java rmicient.Client`      
   
 ## 4. P2P Example
-* **Peers**: Start first one Peer with its port and all others with port and the host and port of one known Peer in the network. 
+* **Peer**: First, start one Peer with its port and all others with its port and the host and port of one known Peer in the network. 
     * *compile*: `javac -d bin -cp src src/*.java` or with you IDE relying on the *.classpath* file
     * *run*:        
     `java p2p.Peer 12345`    
@@ -68,6 +68,6 @@ An **Edit** defined as a: `enum Edit { add, remove }`.
 An **EditRecord** contains the Edit, Shape, Peer ID, and has a logical time-stamp. Every Peer records a sorted array of all EditRecords to generate a consistent state of the Whiteboard across Peers. 
 The **Whiteboard** class is the shared instance between the different Threads, where the data about the Peer2Peer network and the Whiteboard itself is stored. 
 The **PeerConnection** class takes care of all communication on one socket connected to one Peer and is running a thread to receive broadcasted EditRecords. 
-The **ListingThread** waits for new Peers to join the network and establishes PeerConnetions, which then send the needed information, namely the Addresses of all Peer in the Network and the EditRecords. 
+The **ListingThread** waits for new Peers to join the network and establishes PeerConnections, which then send the needed information, namely the Addresses of all Peer in the Network and the EditRecords. 
 
 If one Peer disconnects, all others update their List of PeerConnections. The input interaction is the same as in the previous examples. With the *stop* keyword the Peer exits. 

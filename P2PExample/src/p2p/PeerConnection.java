@@ -33,7 +33,7 @@ public class PeerConnection extends Thread {
         this.port = port;
         this.exit = false;
         this.out = new ObjectOutputStream(this.socket.getOutputStream());
-        this.out.flush();
+        this.out.flush(); // handshake to start the input stream of the remote peer 
         this.in = new ObjectInputStream(this.socket.getInputStream());
     }
     /**
