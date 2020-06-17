@@ -3,6 +3,7 @@ package p2p;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.ServerException;
 
 public class ListenThread extends Thread {
 
@@ -13,34 +14,40 @@ public class ListenThread extends Thread {
     public ListenThread(WhiteBoard wb, ServerSocket serverListen) {
         this.whiteBoard = wb;
         this.serverListen = serverListen;
-        this.exit = false; 
+        this.exit = false;
     }
+
     public void run() {
-        try{
+        try {
+            System.out.println(String.format("Peer is Listening on port %s ......", this.serverListen.getLocalPort()));
             while (!this.exit) {
-                System.out.println(String.format("Peer is Listening on port %s ......", this.serverListen.getLocalPort()));
                 Socket socket = this.serverListen.accept();
-                PeerConnection pc = new PeerConnection(this.whiteBoard, socket, socket.getInetAddress().getHostAddress(), 0);
+                PeerConnection pc = new PeerConnection(this.whiteBoard, socket,
+                        socket.getInetAddress().getHostAddress(), 0);
                 pc.receivePort();
-                pc.sendPeerId(this.whiteBoard.getPeerId()); 
+                pc.sendPeerId(this.whiteBoard.getPeerId());
                 int sig = pc.getSignalFromPeer();
-                if( sig == 1) {
+                if (sig == 1) {
                     pc.sendPeerAddressListAndEditRecord();
                 }
                 this.whiteBoard.addPeerConnection(pc);
-                pc.start(); //here a new Thread is stated that calls the run method of the WhiteBoardThread, which takes care closing the socket
-    
-                System.out.println(String.format("connected to new peer on %s", pc.getPeerAddress())); 
+                pc.start(); // here a new Thread is stated that calls the run method of the
+                            // WhiteBoardThread, which takes care closing the socket
+
+                System.out.println(String.format("connected to new peer on %s", pc.getPeerAddress()));
             }
             this.serverListen.close();
-        }
-        catch (IOException e) {
+            System.out.println("Stop Listening");
+        } catch (ServerException e) { // socket closed by stopListen
+            //e.printStackTrace(); 
+        } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
-        }
+        } 
     }
 
-    public void stopListen(){
+    public void stopListen() throws IOException {
         this.exit = true;
+        this.serverListen.close(); 
     }
 }

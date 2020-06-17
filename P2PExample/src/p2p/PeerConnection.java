@@ -71,11 +71,13 @@ public class PeerConnection extends Thread {
         try {
             while (!this.exit) { 
                 edit = (EditRecord) in.readObject();
-                this.whiteBoard.addEditRecord(edit);
                 if (edit == null){
+                    out.writeObject(null);
+                    out.flush();
                     close(); 
                     break; // if socket closes 
                 }
+                this.whiteBoard.addEditRecord(edit);
             }
             this.in.close();
             this.out.close();
@@ -109,10 +111,12 @@ public class PeerConnection extends Thread {
         this.out.flush();
 	}
 	public void stopConnection() throws IOException {
+        this.out.writeObject(null);
+        this.out.flush();
         this.exit = true;
     }
     private void close() {// removes PeerConnection from list when socket dies
-        this.exit = false;
+        this.exit = true;
         this.whiteBoard.removePeerConnection(this); 
         System.out.println(String.format("removed PeerConnection: %s %d", this.host, this.port));
     }
