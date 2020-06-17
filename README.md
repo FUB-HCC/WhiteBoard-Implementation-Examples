@@ -58,8 +58,16 @@ Start the registry first in the `bin` directory (or the same as you start the se
     * *compile*: `javac -d bin -cp src src/*.java` or with you IDE relying on the *.classpath* file
     * *run*:        
     `java p2p.Peer 12345`    
-    `java p2p.Peer 12344 localhost 12345` 
+    `java p2p.Peer 12344 localhost 12345`   
+    `java p2p.Peer 12343 localhost 12344` ...
 
-Each edit on the Whiteboard of a Peer is broadcasted to all others. An edit has a logical time-stamp, and every Peer records a sorted array of all edits to generate a consistent state of the Whiteboard. 
-The **Whiteboard** class is the shared instance between the different Threads, where the data abound the Peer2Peer network and the Whiteboard ist stored and loaded. 
-The **PeerConnection** class takes care of all communication on one socket connection, and is running a thread the receive broadcasted edits from the connected Peer. 
+
+Each edit on the Whiteboard is broadcasted to all others.
+An **Edit** defined as a: `enum Edit { add, remove }`.
+
+An **EditRecord** contains the Edit, Shape, Peer ID, and has a logical time-stamp. Every Peer records a sorted array of all EditRecords to generate a consistent state of the Whiteboard across Peers. 
+The **Whiteboard** class is the shared instance between the different Threads, where the data about the Peer2Peer network and the Whiteboard itself is stored. 
+The **PeerConnection** class takes care of all communication on one socket connected to one Peer and is running a thread to receive broadcasted EditRecords. 
+The **ListingThread** waits for new Peers to join the network and establishes PeerConnetions, which then send the needed information, namely the Addresses of all Peer in the Network and the EditRecords. 
+
+If one Peer disconnects, all others update their List of PeerConnections. The input interaction is the same as in the previous examples. With the *stop* keyword the Peer exits. 
