@@ -63,7 +63,7 @@ Start the registry first in the `bin` directory (or the same as you start the se
 
 
 Each edit on the Whiteboard is broadcasted to all others.
-An **Edit** defined as a: `enum Edit { add, remove }`.
+An **Edit** is defined as a: `enum Edit { add, remove }`.
 
 An **EditRecord** contains the Edit, Shape, Peer ID, and has a logical time-stamp. Every Peer records a sorted array of all EditRecords to generate a consistent state of the Whiteboard across Peers. 
 The **Whiteboard** class is the shared instance between the different Threads, where the data about the Peer2Peer network and the Whiteboard itself is stored. 
