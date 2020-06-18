@@ -54,6 +54,7 @@ Start the registry first in the `bin` directory (or the same as you start the se
     `java rmicient.Client`      
   
 ## 4. P2P Example
+This example impliments the Whiteboard application in a pure Peer2Peer architactural style that relies on a complete network of *TCP* connections. 
 * **Peer**: First, start one Peer with its port and all others with its port and the host and port of one known Peer in the network. 
     * *compile*: `javac -d bin -cp src src/*.java` or with you IDE relying on the *.classpath* file
     * *run*:        
@@ -71,3 +72,5 @@ The **PeerConnection** class takes care of all communication on one socket conne
 The **ListingThread** waits for new Peers to join the network and establishes PeerConnections, which then send the needed information, namely the Addresses of all Peer in the Network and the EditRecords. 
 
 If one Peer disconnects, all others update their List of PeerConnections. The input interaction is the same as in the previous examples. With the *stop* keyword the Peer exits. 
+
+* Protocol choices *TCP* vs. *UDP*: This implementation relies on stable TCP connnections. For increasing size of the network it might result in larger bandwith usage and overhead. In this case *UDP* could be a better choice, though possible packege los needs to be handled, to assure a consistent Whiteborad.
