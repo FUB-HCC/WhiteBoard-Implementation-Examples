@@ -16,11 +16,11 @@ import java.util.Collections;
 
 
 /**
- * @param connections - connections to all other peer, WhiteBoard is the share class between threads
- * @param record - state and place of unique truth 
- * @param logicalTime - shared between all peers to generate an ordering of EditRecords 
- * @param board - representation of the whiteboard state
- * @param peerId - to reference the user of any edit
+ * @param connections   - connections to all other peer is place here, because WhiteBoard is the share class between threads
+ * @param record        - state and place of unique truth 
+ * @param logicalTime   - shared between all peers to generate an ordering of EditRecords 
+ * @param board         - representation of the whiteboard state
+ * @param peerId        - to reference the user of any edit
  * 
  */
 public class WhiteBoard {
@@ -92,8 +92,8 @@ public class WhiteBoard {
         buildBoardFromRecord();
         updateLogicalTime();
 	}
-    public Shape createShape(ENUMShape name){
-        Shape shape = new Shape(name, getShapeId());
+    public Shape createShape(ShapeType type){
+        Shape shape = new Shape(type, getShapeId());
         return shape; 
     }
 

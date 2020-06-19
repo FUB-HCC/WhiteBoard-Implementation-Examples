@@ -37,11 +37,11 @@ public class PeerConnection extends Thread {
         this.in = new ObjectInputStream(this.socket.getInputStream());
     }
     /**
-     * @param edit
+     * @param editRecord
      * @throws IOException
      */
-    public void sendEdit(EditRecord edit) throws IOException {
-        this.out.writeObject(edit);
+    public void sendEditRecord(EditRecord editRecord) throws IOException {
+        this.out.writeObject(editRecord);
         this.out.flush();
     }
     /**
@@ -87,17 +87,17 @@ public class PeerConnection extends Thread {
 
     @Override
     public void run() {
-        EditRecord edit;
+        EditRecord editRecord;
         try {
             while (!this.exit) { 
-                edit = (EditRecord) in.readObject();
-                if (edit == null){
+                editRecord = (EditRecord) in.readObject();
+                if (editRecord == null){
                     out.writeObject(null);
                     out.flush();
                     close(); 
                     break; // if socket closes 
                 }
-                this.whiteBoard.addEditRecord(edit);
+                this.whiteBoard.addEditRecord(editRecord);
             }
             this.in.close();
             this.out.close();

@@ -11,8 +11,8 @@ public class Peer {
     static String useHelpMessage = "For more information on how to use this service type: \"help\"";
     static String helpInfo = String.format(
             "There are four services: \"create\", \"put\", \"delete\" and \"get\", please select one. To quit the connection type: \"stop\". When a Shape is created, use \"put\" to place the Shape onto the WhiteBoard");
-    static String createShapeInfo = String.format("Choose a Shape by selecting one of: %s, %s, %s.", ENUMShape.circle,
-            ENUMShape.triangle, ENUMShape.rectangle);
+    static String createShapeInfo = String.format("Choose a Shape by selecting one of: %s, %s, %s.", ShapeType.circle,
+            ShapeType.triangle, ShapeType.rectangle);
     static String errorMessageShape = String
             .format("This type of Shape is not available, maybe you can change that? %s", createShapeInfo);
     static String errorMessagePut = String
@@ -100,39 +100,24 @@ public class Peer {
      * @param edit
      * @throws IOException
      */
-    private void broadcastEditToPeers(EditRecord edit) throws IOException {
+    private void broadcastEditRecordToPeers(EditRecord edit) throws IOException {
         for( PeerConnection pc : this.whiteBoard.getPeerConnections()) {
-            pc.sendEdit(edit);
+            pc.sendEditRecord(edit);
         }
     }
-   
     /**
-     * @throws IOException
-     */
-    public void startPeer() throws IOException {
-        this.listen.start(); // listen for incoming peer connections 
-
-        System.out.println(welcomeMessage);
-        String messageIn = "";
-        while (!messageIn.equals("stop")) {
-            messageIn = this.in.readLine();
-            handleCommand(messageIn);
-        }
-        closeAllConnections();
-    }
-    /**
-     * interprets the input from 
+     * interprets the input from System.in
      * @param command
      * @throws IOException
      */
-    public void handleCommand(String command) throws IOException {
+    private void handleCommand(String command) throws IOException {
         switch (command.strip().toLowerCase()) {
             case "create":
                 System.out.println(createShapeInfo);
                 String shapeName = this.in.readLine().strip().toLowerCase();
                 try {
-                    ENUMShape shapeType = ENUMShape.valueOf(shapeName);
-                    this.currentShape = whiteBoard.createShape(shapeType);
+                    ShapeType type = ShapeType.valueOf(shapeName);
+                    this.currentShape = whiteBoard.createShape(type);
                     System.out.println(String.format("Created %s, now you can \"put\" the Shape onto the Whiteboard." , currentShape.toString()));
                 } catch (final IllegalArgumentException ex) {
                     System.out.println(errorMessageShape);
@@ -141,7 +126,7 @@ public class Peer {
             case "put":
                 if (this.currentShape != null) {
                     EditRecord edit = this.whiteBoard.placeShape(this.currentShape);
-                    broadcastEditToPeers(edit); 
+                    broadcastEditRecordToPeers(edit); 
                     this.currentShape = null;
                     System.out.println(this.whiteBoard.toString());
                 } else {
@@ -154,7 +139,7 @@ public class Peer {
                     command = this.in.readLine();
                     int shapeId = Integer.parseInt(command);
                     EditRecord edit = this.whiteBoard.removeShape(shapeId);
-                    broadcastEditToPeers(edit); 
+                    broadcastEditRecordToPeers(edit); 
                     System.out.println(String.format("%s removed Shape %d: ", getStatusMessage(edit != null), shapeId)
                             + this.whiteBoard.toString());
                     if(edit != null){
@@ -195,7 +180,21 @@ public class Peer {
         }
         this.listen.stopListen();
     }
+    /**
+     * after successful initialization of Peer, it can start listening for new Peers and do edits on the Whiteboard
+     * @throws IOException
+     */
+    public void startPeer() throws IOException {
+        this.listen.start(); // listen for incoming peer connections 
 
+        System.out.println(welcomeMessage);
+        String messageIn = "";
+        while (!messageIn.equals("stop")) {
+            messageIn = this.in.readLine();
+            handleCommand(messageIn);
+        }
+        closeAllConnections();
+    }
     public static void main(String[] args) throws Exception {
         Peer peer = null;
         if (args.length == 3){
