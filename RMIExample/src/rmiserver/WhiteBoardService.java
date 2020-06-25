@@ -78,7 +78,6 @@ public class WhiteBoardService extends UnicastRemoteObject implements WhiteBoard
 		try {
 			Registry registry = LocateRegistry.createRegistry(1099);
 			WhiteBoardService aWhiteBoard = new WhiteBoardService();
-//			WhiteBoardService stub = (WhiteBoardService) UnicastRemoteObject.exportObject(aWhiteBoard,0); 
 			registry.rebind("WhiteBoard", aWhiteBoard);  // binding the remote object to an url using the default port 1099 of the rmiregistry        
             System.err.println("Server ready");
             

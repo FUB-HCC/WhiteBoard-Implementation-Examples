@@ -13,6 +13,7 @@ public class Client {
 	private static WhiteBoardInterface wbInterface;
 
 	public static void main(String[] args) throws MalformedURLException, RemoteException, NotBoundException {
+
 		wbInterface = (WhiteBoardInterface) Naming.lookup("WhiteBoard");
 		WhiteBoardHandler whiteBoardHandler = new WhiteBoardHandler(wbInterface); 
 		whiteBoardHandler.startInputHandler(); 	// starts the input interaction with the remote whiteboard  
