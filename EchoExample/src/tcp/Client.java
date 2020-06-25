@@ -1,7 +1,11 @@
 package tcp;
 
-import java.io.*;
-import java.net.*;
+import java.io.PrintStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.net.Socket;
+
 
 public class Client {
 	
@@ -10,8 +14,10 @@ public class Client {
 	 * @throws IOException
 	 */
 	public static void main(String args[]) throws IOException { 
-
-		Socket socket = new Socket("localhost", 1234); 
+		int PORT = 12345;
+		String HOST = "127.0.0.1";
+		
+		Socket socket = new Socket(HOST, PORT); 
 
 		PrintStream out = new PrintStream(socket.getOutputStream());
 		

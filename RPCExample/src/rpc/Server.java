@@ -11,7 +11,7 @@ public class Server {
 
     /**
 	 * port to server
-	 * @param port used to connect to client
+	 * @param port
 	 * 
 	 */
     public Server(int port) throws IOException {
@@ -30,7 +30,8 @@ public class Server {
         }
     }
     public static void main(String[] args) throws IOException{
-        Server server = new Server(12345);
+        int PORT = 12345;
+        Server server = new Server(PORT);
         try {
             server.startServer();
         } catch (Exception e) {

@@ -3,11 +3,12 @@ package rpc;
 import java.util.ArrayList;
 
 /**
-* Form wählen (available shapes: triangle, rectangle, circle)
-* Form (Shape) auf Zeichenfläche ablegen
-* Form von Zeichenfläche löschen
-* Formen von Zeichenfläche abrufen
- */
+* implements the following Whiteboard functionalities:
+* Select (available shapes: triangle, rectangle, circle)
+* put Shape onto the Whiteboard 
+* delete shape on Whiteboard
+* get shape by id from Whiteboard
+*/
 
 
 

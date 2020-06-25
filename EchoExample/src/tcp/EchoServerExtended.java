@@ -1,7 +1,12 @@
 package tcp;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 public class EchoServerExtended extends Thread {
     private Socket socket;
     private BufferedReader in;
@@ -30,8 +35,8 @@ public class EchoServerExtended extends Thread {
         }
     }
     public static void main (String args[]) throws IOException {
-        @SuppressWarnings("resource")
-		ServerSocket listen = new ServerSocket(1234); // 
+        int PORT = 12345;
+        ServerSocket listen = new ServerSocket(PORT);
         while(true) { // non-terminating server
             Socket socket = listen.accept();
             new EchoServerExtended(socket).start();

@@ -23,4 +23,5 @@
 hs_err_pid*
 
 #VC-code
-**/.DS_Store
+**.DS_Store
+**.vscode/*
