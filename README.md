@@ -82,7 +82,7 @@ The Amazon Elastic Compute Cloud (EC2) offers the following advantages:
 + Elastic Load Balancer (ELB) to distribute the incoming traffic equally among EC2 instances. 
 + Performs health checks to terminate and restart erroneous instances. 
 
-# Setup of our RPC-Server on the AWS-Cloud
+### Setup of our RPC-Server on the AWS-Cloud
 1. Launch EC2 Instance (Amazon Linux 2 AMI) Instance type: *t2.micro*
 2. Connect to the instance with ssh and do the desired setup, so we install JAVA and pull from this git Repository.
 3. Create an Amazon Machine Images (AMI) from the Instance
@@ -97,5 +97,5 @@ For interaction and testing of the cloud use:
 + AWSCloudExample:      
     `java aws.Client RPC-load-balancer-205ffa34ea80b9cb.elb.us-east-2.amazonaws.com <number of threads>` 
 
-# aws-Client:
+### aws-Client:
 Creates multiple client threads to connect to the server and create shapes on the Whiteboard. 
