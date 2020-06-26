@@ -1,6 +1,6 @@
 package rpc;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
 * implements the following Whiteboard functionalities:
@@ -13,10 +13,11 @@ import java.util.ArrayList;
 
 
 public class WhiteBoard {
-    private ArrayList<Shape> board;
+    private CopyOnWriteArrayList<Shape> board;
     private int shapeIdCounter;
+
     public WhiteBoard(){
-        this.board = new ArrayList<Shape>();
+        this.board = new CopyOnWriteArrayList<Shape>(); // A thread-safe variant of ArrayList 
         this.shapeIdCounter = 0; 
     }
 
@@ -25,7 +26,7 @@ public class WhiteBoard {
         return String.format("WhiteBoard: %s", this.board.toString());
     }
 
-    public ArrayList<Shape> getBoard(){
+    public CopyOnWriteArrayList<Shape> getBoard(){
         return this.board;
     }
     public Shape createShape(ENUMShape name){

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class WhiteBoardThread extends Thread {
 
@@ -48,13 +49,22 @@ public class WhiteBoardThread extends Thread {
             String messageIn = "";
             while (!messageIn.equals("stop")) {
                 messageIn = this.in.readLine();
+                if (messageIn==null){ break; }
                 handleCommand(messageIn);
                 out.flush();
             }
             this.in.close();
             this.out.close();
             this.socket.close();
-        } catch (final IOException e) {
+        } catch (SocketException e){
+            try {
+                this.in.close();
+                this.out.close();
+                this.socket.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -1,4 +1,4 @@
-package rpc;
+package aws;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,12 +7,12 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client {
+public class Client { 
 
     public static void main(String[] args) {
-        int PORT = 12345;
+        int PORT = 12345; 
         String HOST = "localhost";
-		if (args.length==1){HOST=args[0];}
+        if (args.length==1){HOST=args[0];}
         
         BufferedReader bufferReader = new BufferedReader(new InputStreamReader(System.in));
         Socket socket = null;
@@ -31,13 +31,16 @@ public class Client {
             System.out.println("write Commands here: ");
             System.out.println(in.readLine());
 
-            String inputCommand = "";
+            //String inputCommand = "";
             String serverResponds = "";
+            String[] commandSequence = {"create", "circle", "put", "create", "triangle", "put", "create", "rectangle", "put"};
             while(!serverResponds.equals("goodby")){
-                inputCommand = bufferReader.readLine();
-                out.println(inputCommand);                 
-                serverResponds = in.readLine();
-                System.out.println(serverResponds);
+                for (String inputCommand : commandSequence) {
+                    System.out.println(inputCommand);
+                    out.println(inputCommand);
+                    serverResponds = in.readLine();
+                }
+                //System.out.println(serverResponds);
             }
             socket.close();
             bufferReader.close();

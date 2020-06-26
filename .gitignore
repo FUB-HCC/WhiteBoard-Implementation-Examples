@@ -25,3 +25,5 @@ hs_err_pid*
 #VC-code
 **.DS_Store
 **.vscode/*
+
+test
