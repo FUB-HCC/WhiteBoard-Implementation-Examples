@@ -11,7 +11,8 @@ public class Client {
 
     public static void main(String[] args) {
         int PORT = 12345;
-        String HOST = "127.0.0.1";
+        String HOST = "localhost";
+		if (args.length==1){HOST=args[0];}
         
         BufferedReader bufferReader = new BufferedReader(new InputStreamReader(System.in));
         Socket socket = null;
