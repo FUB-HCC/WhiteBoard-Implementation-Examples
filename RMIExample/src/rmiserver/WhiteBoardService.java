@@ -18,9 +18,9 @@ import rmiinterface.*;
 * get shape by id from Whiteboard
 */
 
-public class WhiteBoardService implements WhiteBoardInterface {
+public class WhiteBoardService extends UnicastRemoteObject implements WhiteBoardInterface {
     
-    //private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
     private ArrayList<Shape> board;
     private int shapeIdCounter;
 
@@ -77,9 +77,8 @@ public class WhiteBoardService implements WhiteBoardInterface {
     public static void main(String[] args){
 		try {
 			WhiteBoardService aWhiteBoard = new WhiteBoardService();
-			WhiteBoardInterface stub = (WhiteBoardInterface) UnicastRemoteObject.exportObject(aWhiteBoard,0); 
             Registry registry = LocateRegistry.createRegistry(1099);
-            registry.rebind("WhiteBoard", stub);  // binding the remote object to an url using the default port 1099 of the rmiregistry        
+            registry.rebind("WhiteBoard", aWhiteBoard);  // binding the remote object to an url using the default port 1099 of the rmiregistry        
             System.err.println("Server ready");
             
         } catch (Exception e) {

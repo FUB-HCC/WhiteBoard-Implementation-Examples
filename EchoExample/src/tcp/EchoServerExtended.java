@@ -36,7 +36,7 @@ public class EchoServerExtended extends Thread {
     }
     public static void main (String args[]) throws IOException {
         int PORT = 12345;
-        ServerSocket listen = new ServerSocket(PORT); // args[0] port
+        ServerSocket listen = new ServerSocket(PORT);
         while(true) { // non-terminating server
             Socket socket = listen.accept();
             new EchoServerExtended(socket).start();

@@ -9,9 +9,11 @@ import java.net.UnknownHostException;
 
 public class Client {
 
+
+	static final int PORT = 12345;
+	static final String HOST = "127.0.0.1";
+
     public static void main(String[] args) {
-    int PORT = 12345;
-    String HOST = "127.0.0.1";
     
     BufferedReader bufferReader = new BufferedReader(new InputStreamReader(System.in));
     Socket socket = null;
@@ -24,25 +26,25 @@ public class Client {
         System.out.println(e.getMessage());
         System.exit(1);
     }
+    // "classic" socket communication
     try {
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintStream out = new PrintStream(socket.getOutputStream());
         System.out.println("write Commands here: ");
         System.out.println(in.readLine());
-
-        String inputCommand = "";
-        String serverResponds = "";
-        while(!serverResponds.equals("goodby")){
-            inputCommand = bufferReader.readLine();
-            out.println(inputCommand);                 
-            serverResponds = in.readLine();
-            System.out.println(serverResponds);
-        }
-        socket.close();
-        bufferReader.close();
-    } catch (IOException e) {
-        e.printStackTrace();
-        System.exit(1);
-    }
-    }
+			String inputCommand = "";
+			String serverResponds = "";
+			while (!serverResponds.equals("goodby")) {
+				inputCommand = bufferReader.readLine();
+				out.println(inputCommand);
+				serverResponds = in.readLine();
+				System.out.println(serverResponds);
+			}
+			socket.close();
+			bufferReader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
 }

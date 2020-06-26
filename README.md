@@ -74,3 +74,6 @@ The **ListingThread** waits for new Peers to join the network and establishes Pe
 If one Peer disconnects, all others update their List of PeerConnections. The input interaction is the same as in the previous examples. With the *stop* keyword the Peer exits. 
 
 * Protocol choices *TCP* vs. *UDP*: This implementation relies on stable TCP connnections. For increasing size of the network it might result in larger bandwith usage and overhead. In this case *UDP* could be a better choice, though possible packege los needs to be handled, to assure a consistent Whiteborad.
+
+## 5. Cloud AWS Example
+The Amazon Elastic Compute Cloud (EC2) offeres the following advantages:
