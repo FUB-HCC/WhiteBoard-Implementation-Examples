@@ -77,3 +77,7 @@ If one Peer disconnects, all others update their List of PeerConnections. The in
 
 ## 5. Cloud AWS Example
 The Amazon Elastic Compute Cloud (EC2) offeres the following advantages:
++ High avalibility for different geo-locations (avalibility zones)
++ Autoscalling to maintain the application avalibility by adding or removing EC2 instances, depending on the e.g. CPU-usage.
++ Elastince Load Balancer to destibute the incomming traffic equaly amoung EC2 instances. 
++ Performes Health Checkts to terminate and restart erroneous instances. 

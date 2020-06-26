@@ -7,24 +7,16 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Client { 
+public class Client extends Thread { 
+    
+    private Socket socket;
 
-    public static void main(String[] args) {
-        int PORT = 12345; 
-        String HOST = "localhost";
-        if (args.length==1){HOST=args[0];}
-        
-        BufferedReader bufferReader = new BufferedReader(new InputStreamReader(System.in));
-        Socket socket = null;
-        try {
-            socket = new Socket(HOST, PORT);        // connect to the server on port 12345 localhost 
-        } catch (UnknownHostException e) {          // throws Exception if server is not running
-            System.out.println(e.getMessage());
-            System.exit(1);
-        } catch (IOException e){
-            System.out.println(e.getMessage());
-            System.exit(1);
-        }
+    public Client(String HOST, int PORT) throws UnknownHostException, IOException {
+        this.socket = new Socket(HOST, PORT);
+    }
+
+    @Override
+    public void run() {
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintStream out = new PrintStream(socket.getOutputStream());
@@ -43,10 +35,28 @@ public class Client {
                 //System.out.println(serverResponds);
             }
             socket.close();
-            bufferReader.close();
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+    public static void main(String[] args) {
+        int PORT = 12345; 
+        String HOST = "localhost";
+        int numThreads = 10;
+        if (args.length>0){HOST=args[0];}
+        if (args.length==2){numThreads = Integer.parseInt(args[1]);}
+
+        try {
+            for (int i = 0; i < numThreads; i++) {
+                new Client(HOST, PORT).start();
+            }
+        } catch (UnknownHostException e) {          // throws Exception if server is not running
+            System.out.println(e.getMessage());
+            System.exit(1);
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+            System.exit(1);
+        }  
     }
 }
