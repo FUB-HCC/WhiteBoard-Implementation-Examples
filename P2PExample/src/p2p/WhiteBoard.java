@@ -25,7 +25,7 @@ import java.util.Collections;
  */
 public class WhiteBoard {
     
-    private ArrayList<Shape> board;
+    private ArrayList<BoardEntry> board;
     private ArrayList<EditRecord> record; 
     private ArrayList<PeerConnection> connections;
     private int logicalTime;
@@ -36,7 +36,7 @@ public class WhiteBoard {
      * @param peerId
      */
     public WhiteBoard(int peerId){
-        this.board = new ArrayList<Shape>();
+        this.board = new ArrayList<BoardEntry>();
         this.record = new ArrayList<EditRecord>();
         this.connections = new ArrayList<PeerConnection>();
         this.logicalTime = 0; 
@@ -45,13 +45,18 @@ public class WhiteBoard {
 
     @Override
     public String toString(){
-        return String.format("WhiteBoard: %s, time: %d, peerId: %d", this.board.toString(), this.logicalTime, this.peerId);
+    	String counter = new String();
+    	for (BoardEntry boardEntry : board) {
+			counter += boardEntry.toString();
+		}
+    	
+        return String.format("WhiteBoard State:\n%s\nMy State: time: %d Id: %d", counter, this.logicalTime, this.peerId);
     }
 
     public ArrayList<EditRecord> getRecord() {
         return this.record;
     }
-    public ArrayList<Shape> getBoard(){
+    public ArrayList<BoardEntry> getBoard(){
         return this.board;
     }
 
@@ -71,9 +76,9 @@ public class WhiteBoard {
         Collections.sort(this.record); 
         for( EditRecord e: this.record){
             if (e.getEdit()==Edit.add){
-                this.board.add(e.getShape());
+            	this.board.add(new BoardEntry(e.getShape(),e.getLogicalTimestamp(), e.getPeerId()));
             } else {
-                this.board.remove(getShape(e.getShape().id)); //remove shape from board by reference 
+                this.board.remove(getBoardEntry(e.getShape().id)); //remove shape from board by reference 
             }
         }
     }
@@ -101,17 +106,16 @@ public class WhiteBoard {
         return Integer.parseInt( this.peerId + "" + this.logicalTime );
     }
 
-    public Shape getShape(int shapeID) {
-        for (int i = 0; i < this.board.size(); i++) {
-            if (this.board.get(i).id==shapeID){
-                return this.board.get(i);
-            }
-        }
+    public BoardEntry getBoardEntry(int shapeID) {
+        for (BoardEntry boardEntry : board) {
+			if(boardEntry.getShape().id == shapeID)
+				return boardEntry;
+		}
         return null;
     }
 
     public EditRecord placeShape(Shape shape){
-        this.board.add(shape);
+        this.board.add(new BoardEntry(shape, this.logicalTime, this.peerId));
         EditRecord edit = new EditRecord(Edit.add, shape, this.logicalTime, this.peerId);
         this.record.add(edit); 
         this.logicalTime ++; 
@@ -119,9 +123,9 @@ public class WhiteBoard {
     }
     
     public EditRecord removeShape(int shapeID){
-        Shape shape = this.getShape(shapeID);
-        EditRecord edit = new EditRecord(Edit.remove, shape, this.logicalTime, this.peerId);
-        boolean flag =  this.board.remove(shape);
+    	BoardEntry bEntry = this.getBoardEntry(shapeID);
+        EditRecord edit = new EditRecord(Edit.remove, bEntry.getShape(), this.logicalTime, this.peerId);
+        boolean flag =  this.board.remove(bEntry);
         if(flag) {
             this.record.add(edit);
             this.logicalTime ++; 
