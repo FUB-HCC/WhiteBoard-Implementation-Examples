@@ -93,9 +93,9 @@ The Amazon Elastic Compute Cloud (EC2) offers the following advantages:
 
 For interaction and testing of the cloud use:
 + RPCExample:   
-    `java rpc.Client ec2-18-191-16-29.us-east-2.compute.amazonaws.com`   
+    `java rpc.Client RPC-load-balancer-205ffa34ea80b9cb.elb.us-east-2.amazonaws.com`   
 + AWSCloudExample:      
-    `java aws.Client ec2-18-191-16-29.us-east-2.compute.amazonaws.com <number of threads>` 
+    `java aws.Client RPC-load-balancer-205ffa34ea80b9cb.elb.us-east-2.amazonaws.com <number of threads>` 
 
 # aws-Client:
 Creates multiple client threads to connect to the server and create shapes on the Whiteboard. 
