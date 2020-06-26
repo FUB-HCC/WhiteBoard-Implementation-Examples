@@ -76,8 +76,26 @@ If one Peer disconnects, all others update their List of PeerConnections. The in
 * Protocol choices *TCP* vs. *UDP*: This implementation relies on stable TCP connnections. For increasing size of the network it might result in larger bandwith usage and overhead. In this case *UDP* could be a better choice, though possible packege los needs to be handled, to assure a consistent Whiteborad.
 
 ## 5. Cloud AWS Example
-The Amazon Elastic Compute Cloud (EC2) offeres the following advantages:
-+ High avalibility for different geo-locations (avalibility zones)
-+ Autoscalling to maintain the application avalibility by adding or removing EC2 instances, depending on the e.g. CPU-usage.
-+ Elastince Load Balancer to destibute the incomming traffic equaly amoung EC2 instances. 
-+ Performes Health Checkts to terminate and restart erroneous instances. 
+The Amazon Elastic Compute Cloud (EC2) offers the following advantages:
++ High availability for different geo-locations (availability zones)
++ Autoscalling to maintain the application availability by adding or removing EC2 instances, depending on the e.g. CPU-usage.
++ Elastic Load Balancer (ELB) to distribute the incoming traffic equally among EC2 instances. 
++ Performs health checks to terminate and restart erroneous instances. 
+
+# Setup of our RPC-Server on the AWS-Cloud
+1. Launch EC2 Instance (Amazon Linux 2 AMI) Instance type: *t2.micro*
+2. Connect to the instance with ssh and do the desired setup, so we install JAVA and pull from this git Repository.
+3. Create an Amazon Machine Images (AMI) from the Instance
+4. Create and Launch an Autoscaling configuration with the AMI, we choose a desired capacity one 1 Instance, minimum 1 and maximum 4. When an instance terminates a new one will be started to reach the desired Capacity. We configured scaling policy to increase and decrease the number of instances depending on the average CPU-Utilization. Decrease if it is below 20%, and increase by one if it is above 30% for demonstration purpose. 
+5. Add a Load Balancer to the Auto-Scaling Group, that performs health checks on the instances and distributes the traffic.
+
+6. Now we have a scalable Whiteboard-Service, but each Server-Instance has its Whiteboard, as they are not synchronized. A database would provide a solution to guarantee a consistent state, e.g. accessing the Amazon Elastic Block Store (EBS) from all instances. 
+
+For interaction and testing of the cloud use:
++ RPCExample:   
+    `java rpc.Client ec2-18-191-16-29.us-east-2.compute.amazonaws.com`   
++ AWSCloudExample:      
+    `java aws.Client ec2-18-191-16-29.us-east-2.compute.amazonaws.com <number of threads>` 
+
+# aws-Client:
+Creates multiple client threads to connect to the server and create shapes on the Whiteboard. 
