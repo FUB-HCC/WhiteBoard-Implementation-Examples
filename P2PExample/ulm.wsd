@@ -1,0 +1,41 @@
+@startuml Peer
+class Peer
+
+Peer o-- WhiteBoard
+Peer o-- ListenThread
+Peer : int port
+Peer : Shape currentShape
+Peer : BufferedReader in
+Peer : +startPeer()
+Peer : -handleCommand()
+Peer : -broadcastEditRecordToPeers()
+
+ListenThread <|-- Thread
+ListenThread o-- WhiteBoard
+ListenThread : ServerSocket listen
+ListenThread : +run()
+
+WhiteBoard "1" *-- "n" EditRecords
+WhiteBoard "1" *-- "n" Shape
+WhiteBoard "1" *-- "n" PeerConnection
+
+WhiteBoard : int logicalTime
+WhiteBoard : int peerId
+
+PeerConnection <|-- Thread
+PeerConnection o-- WhiteBoard
+PeerConnection : -Socket socket
+PeerConnection : +run()
+PeerConnection : +sendEditRecord()
+
+EditRecords : Edit edit
+EditRecords : Shape shape 
+EditRecords : int logicalTimestamp
+EditRecords : int peerId
+
+Shape : ShapeType type
+Shape : int id
+
+Thread : +start()
+Thread : +run()
+@enduml
