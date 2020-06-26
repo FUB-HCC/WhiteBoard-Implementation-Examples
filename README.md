@@ -70,10 +70,12 @@ An **EditRecord** contains the Edit, Shape, Peer ID, and has a logical time-stam
 The **Whiteboard** class is the shared instance between the different Threads, where the data about the Peer2Peer network and the Whiteboard itself is stored. 
 The **PeerConnection** class takes care of all communication on one socket connected to one Peer and is running a thread to receive broadcasted EditRecords. 
 The **ListingThread** waits for new Peers to join the network and establishes PeerConnections, which then send the needed information, namely the Addresses of all Peer in the Network and the EditRecords. 
-![uml class diagram](out/P2PExample/ulm/Peer.png)
+
 If one Peer disconnects, all others update their List of PeerConnections. The input interaction is the same as in the previous examples. With the *stop* keyword the Peer exits. 
 
 * Protocol choices *TCP* vs. *UDP*: This implementation relies on stable TCP connnections. For increasing size of the network it might result in larger bandwith usage and overhead. In this case *UDP* could be a better choice, though possible packege los needs to be handled, to assure a consistent Whiteborad.
+
+![uml class diagram](out/P2PExample/ulm/Peer.png)
 
 ## 5. Cloud AWS Example
 The Amazon Elastic Compute Cloud (EC2) offers the following advantages:
