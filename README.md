@@ -38,8 +38,6 @@ Other commands are interactively described by the Whiteboard service.
     `java rpc.Server`       
     `java rpc.Client`        
 
-
-
 ## 3. RMI Example 
 * **RMI Server**: Provides the WhiteBoard class as an Interface.
 Start the registry first in the `bin` directory (or the same as you start the server)
