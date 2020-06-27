@@ -16,7 +16,7 @@ ListenThread : ServerSocket listen
 ListenThread : +run()
 
 WhiteBoard "1" *-- "n" EditRecords
-WhiteBoard "1" *-- "n" Shape
+WhiteBoard "1" *-- "n" BoardEntry
 WhiteBoard "1" *-- "n" PeerConnection
 
 WhiteBoard : int logicalTime
@@ -24,13 +24,17 @@ WhiteBoard : int peerId
 
 PeerConnection <|-- Thread
 PeerConnection o-- WhiteBoard
-PeerConnection : -Socket socket
+PeerConnection : Socket socket
 PeerConnection : +run()
 PeerConnection : +sendEditRecord()
 
+BoardEntry o-- Shape
+BoardEntry : int timestamp
+BoardEntry : int peerId
+
 EditRecords : Edit edit
-EditRecords : Shape shape 
-EditRecords : int logicalTimestamp
+EditRecords o-- Shape 
+EditRecords : int timestamp
 EditRecords : int peerId
 
 Shape : ShapeType type
