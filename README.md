@@ -54,24 +54,22 @@ Start the registry first in the `bin` directory (or the same as you start the se
     `java rmicient.Client`      
   
 ## 4. P2P Example
-This example impliments the Whiteboard application in a pure Peer2Peer architactural style that relies on a complete network of *TCP* connections. 
-* **Peer**: First, start one Peer with its port and all others with its port and the host and port of one known Peer in the network. 
-    * *compile*: `javac -d bin -cp src src/*.java` or with you IDE relying on the *.classpath* file
+This example implements the Whiteboard application in a pure Peer2Peer architactural style that relies on a complete network of *TCP* connections. 
+
+* **Peer**: First, start one Peer with its port (1 var). Then, start all other peers with their port, their hostname and the port of a known peer in the network (3 vars). 
+    * *compile*: `javac -d bin -cp src src/*.java` or with you IDE relying on the *.classpath* file (or in Eclipse "run as configuration")
     * *run*:        
     `java p2p.Peer 12345`    
     `java p2p.Peer 12344 localhost 12345`   
     `java p2p.Peer 12343 localhost 12344` ...
 
-
-Each edit on the Whiteboard is broadcasted to all others.
-An **Edit** is defined as a: `enum Edit { add, remove }`.
-
+An **Edit** is defined as a: `enum Edit { add, remove }`. Each edit on the Whiteboard is "broadcasted" to all others.
 An **EditRecord** contains the Edit, Shape, Peer ID, and has a logical time-stamp. Every Peer records a sorted array of all EditRecords to generate a consistent state of the Whiteboard across Peers. 
 The **Whiteboard** class is the shared instance between the different Threads, where the data about the Peer2Peer network and the Whiteboard itself is stored. 
 The **PeerConnection** class takes care of all communication on one socket connected to one Peer and is running a thread to receive broadcasted EditRecords. 
 The **ListingThread** waits for new Peers to join the network and establishes PeerConnections, which then send the needed information, namely the Addresses of all Peer in the Network and the EditRecords. 
 
-If one Peer disconnects, all others update their List of PeerConnections. The input interaction is the same as in the previous examples. With the *stop* keyword the Peer exits. 
+If one Peer disconnects, all others update their List of PeerConnections. The input interaction is the same as in the previous examples. With the *stop* keyword the Peer leaves the network. 
 
 * Protocol choices *TCP* vs. *UDP*: This implementation relies on stable TCP connnections. For increasing size of the network it might result in larger bandwith usage and overhead. In this case *UDP* could be a better choice, though possible packege los needs to be handled, to assure a consistent Whiteborad.
 
