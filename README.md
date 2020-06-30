@@ -103,3 +103,6 @@ For interaction and testing of the cloud use:
 
 ### aws.Client:
 Creates multiple Client-Threads to connect to the server and create Shapes on the Whiteboard in a while-loop, to test the server, whit 40 Threads the CPU is quickly above 30%. 
+
+6. Simple UI
+Contains an `index.html` file that can be opened in any browser, css-styles, and javascript that creates and deletes html-elements. 
