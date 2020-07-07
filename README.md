@@ -20,6 +20,9 @@ Examples of WhiteBoard Implementations using different architectural styles: PRC
     `java udp.UDPClient`    
 
 ## 2.1 RPC Example Simple
+
+Please note: The RPC example is more an "without RMI" example. It is realized in order to show you the difference between with and without RMI.
+
 * **RPC Simple Server**: Handling only one client at a time and has the same service as the *RPC Server*.
 * **Client**: Same as *2.1 RPC Client*
 * *compile*: `javac -d bin -cp src src/rpc/*.java`
@@ -28,6 +31,9 @@ Examples of WhiteBoard Implementations using different architectural styles: PRC
     `java rpc.Client` 
 
 ## 2.2 RPC Example
+
+Please note: The RPC example is more an "without RMI" example. It is realized in order to show you the difference between with and without RMI.
+
 * **Server**: Handling multiple clients in Threads and executing changes on the Whiteboard. 
 * **Client**: Connects to the server, sending commands the Whiteboard service. For each message to the server, the client awaits a response.
 Command **stop**: The client shuts down and the connection closes. 
