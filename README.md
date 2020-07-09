@@ -104,6 +104,9 @@ For interaction and testing of the cloud use:
 ### aws.Client:
 Creates multiple Client-Threads to connect to the server and create Shapes on the Whiteboard in a while-loop, to test the server, whit 40 Threads the CPU is quickly above 30%. 
 
-6. Simple UI
+## 6. Simple UI
 Contains an `index.html` file that can be opened in any browser, CSS-styles, and javascript that creates and deletes HTML-elements. 
 The JavaScript Code builds the shapes inside the HTML-document and saves the whiteboard in the browsers localStorage before unloading the page. So that the previous state is recreated upon browser reloads. 
+
+## 7. WebExample
+Install dependencies with: `npm install`, create the css-files: `npm run css-build` and then run the server: `npm run start`. Checkout the Whiteboard at (http://localhost:5000/)[http://localhost:5000/].
