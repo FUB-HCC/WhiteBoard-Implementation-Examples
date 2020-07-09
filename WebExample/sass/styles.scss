@@ -1,0 +1,45 @@
+@charset "utf-8";
+@import "../node_modules/bulma/bulma.sass";
+
+$shape-size: 100px;
+
+#whiteboard {
+    position: relative;
+    width: 1000px;
+    height: 1000px;
+  }
+  .shape {
+      position: absolute;
+      margin: 2px;
+      text-align: justify;
+  }
+  .shape button {
+    padding: 0px;
+  }
+  .circle {
+      height: $shape-size;
+      width: $shape-size;
+      clip-path: circle();
+      background-color: #550;
+    }
+    .square {
+      height: $shape-size;
+      width: $shape-size;
+      background-color: #555;
+    }
+    .triangle {
+      width: $shape-size;
+    height: $shape-size;
+    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+    background-color: #555;
+  }
+
+.has-background-red {
+    background-color: $red;
+}
+.has-background-green {
+    background-color: hsl(141, 53%, 53%);
+}
+.has-background-yellow {
+    background-color: $yellow;
+}

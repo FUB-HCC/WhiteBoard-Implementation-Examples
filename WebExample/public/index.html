@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whiteboard</title>
+  <link rel="stylesheet" type="text/css" href="css/styles.css">
+</head>
+
+<body>
+    <div class="columns has-background-light">
+        <div class="column section">
+            <div class="activeUsers">
+                <p class="title is-4">Active users</p>
+            </div>
+        </div>
+        
+        <div class="column is-four-fifths section">
+            <div class="select">
+                <select id="shapeType">
+                    <option value="circle">Circle</option>
+                    <option value="triangle">Triangle</option>
+                    <option value="square">Square</option>
+                </select>
+            </div>
+            <div class="select">
+                <select id="shapeColor">
+                    <option class="has-background-red" value="red">red</option>
+                    <option class="has-background-green" value="green">green</option>
+                    <option class="has-background-yellow" value="yellow">yellow</option>
+                </select>
+                <label for="head"></label>
+            </div>
+            <a class="button" onclick="createShape(event)">Create</a>
+            <div id="whiteboard" class="has-background-white">
+                <!--this is the space for the shape elements-->
+            </div>
+        </div>
+        
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
