@@ -1,3 +1,4 @@
+
 const express = require("express")
 const socket = require("socket.io")
 
@@ -54,7 +55,8 @@ io.on("connection", function (socket) {
       if (index!==-1) {
         shapes = [...shapes.slice(0,index), {...shapes[index], "position":position}, ...shapes.slice(index+1)]
         io.emit("move shape", data)
+      } else {
+        socket.emit("refresh")
       }
   })
-
 });

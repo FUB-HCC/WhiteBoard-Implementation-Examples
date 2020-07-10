@@ -3,36 +3,61 @@
 
 $shape-size: 100px;
 
+.hide { 
+  display: none;
+}
+.shape:hover .hide {
+  display: block;
+}
+.triangle + .hide {
+  margin-top: -20px;
+  margin-left: 10px;
+}
+.circle + .hide {
+  margin-top: -30px;
+  margin-left: 20px;
+}
+.square + .hide {
+  margin-top: -20px;
+}
+@media only screen and (min-width: 800px) {
+  html, body {margin: 0; height: 100%; overflow: hidden}
+}
+
+#wb-container {
+  overflow: auto;
+  height: calc(100vh - 130px);
+}
 #whiteboard {
     position: relative;
-    width: 1000px;
-    height: 1000px;
+    width: 2000px;
+    height: 2000px;
   }
-  .shape {
-      position: absolute;
-      margin: 2px;
-      text-align: justify;
-  }
-  .shape button {
-    padding: 0px;
-  }
-  .circle {
-      height: $shape-size;
-      width: $shape-size;
-      clip-path: circle();
-      background-color: #550;
-    }
-    .square {
-      height: $shape-size;
-      width: $shape-size;
-      background-color: #555;
-    }
-    .triangle {
-      width: $shape-size;
+.shape {
+    position: absolute;
+    margin: 0px;
+    text-align: justify;
+}
+.shape button {
+  padding: 0px;
+}
+.circle {
     height: $shape-size;
-    clip-path: polygon(50% 0, 0 100%, 100% 100%);
+    width: $shape-size;
+    clip-path: circle();
+    background-color: #550;
+  }
+.square {
+    height: $shape-size;
+    width: $shape-size;
     background-color: #555;
   }
+.triangle {
+  width: $shape-size;
+  height: $shape-size;
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+  background-color: #555;
+}
 
 .has-background-red {
     background-color: $red;

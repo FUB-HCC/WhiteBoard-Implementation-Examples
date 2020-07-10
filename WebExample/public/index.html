@@ -26,15 +26,17 @@
             </div>
             <div class="select">
                 <select id="shapeColor">
-                    <option class="has-background-red" value="red">red</option>
-                    <option class="has-background-green" value="green">green</option>
-                    <option class="has-background-yellow" value="yellow">yellow</option>
+                    <option value="red">Red</option>
+                    <option value="green">Green</option>
+                    <option value="yellow">Yellow</option>
                 </select>
                 <label for="head"></label>
             </div>
             <a class="button" onclick="createShape(event)">Create</a>
-            <div id="whiteboard" class="has-background-white">
-                <!--this is the space for the shape elements-->
+            <div id="wb-container">
+                <div id="whiteboard" class="has-background-white">
+                    <!--this is the space for the shape elements-->
+                </div>
             </div>
         </div>
         
