@@ -109,6 +109,5 @@ Contains an `index.html` file that can be opened in any browser, CSS-styles, and
 The JavaScript Code builds the shapes inside the HTML-document and saves the whiteboard in the browsers localStorage before unloading the page. So that the previous state is recreated upon browser reloads. 
 
 ## 7. WebExample
-To test the Application first install the npm package-mamager and the nodeJS server: 
-linux: `sudo apt install nodejs & sudo apt install npm`
-Install dependencies with: `npm install`, create the css-files: `npm run css-build` and then run the server: `npm run start`. Checkout the Whiteboard at http://localhost:5000/.
+To test the Whiteboard Web-Application, first install the npm package-manager and nodeJS:   
+Linux: `sudo apt install nodejs & sudo apt install npm` Install dependencies with: `npm install`, create the CSS-files: `npm run css-build` and then run the server: `npm run start`. Checkout the Whiteboard at http://localhost:5000/.
