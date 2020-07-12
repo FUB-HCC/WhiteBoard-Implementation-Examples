@@ -1,3 +1,10 @@
+/***************************************************************************************
+* used code example: 
+*    Title: Socket.io tutorial: Real-time communication in web development
+*    Author: Mateusz Piguła 
+*    Date: 30 April, 2020 
+*    Availability: https://tsh.io/blog/socket-io-tutorial-real-time-communication/
+***************************************************************************************/
 
 const express = require("express")
 const socket = require("socket.io")

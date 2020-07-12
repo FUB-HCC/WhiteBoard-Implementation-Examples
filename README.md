@@ -112,3 +112,6 @@ The JavaScript Code builds the shapes inside the HTML-document and saves the whi
 To test the Application first install the npm package-mamager and the nodeJS server: 
 linux: `sudo apt install nodejs & sudo apt install npm`
 Install dependencies with: `npm install`, create the css-files: `npm run css-build` and then run the server: `npm run start`. Checkout the Whiteboard at (http://localhost:5000/)[http://localhost:5000/].
+
+The Server handles the following socket messages: `"connection", "disconnect", "create shape", "create shape", "move shape"`. 
+The Clients handle: `"whiteboard", "new user", "user disconnected", "create shape", "delete shape", "move shape", "refresh"`. 

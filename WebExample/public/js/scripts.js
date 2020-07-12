@@ -29,6 +29,7 @@ socket.on("move shape", function (data) {
     moveShapeElement(id, position)
 })
 
+// receives refresh if the client holds incorrect state of the whiteboard
 socket.on("refresh", function () {
   location.reload(true)
 })
@@ -67,7 +68,6 @@ function createShapeElement(shape) {
     `
     whiteboard.innerHTML += shapeElement
 }
-
 
 function deleteShape(event) {
     let shapeId = event.target.parentNode.id
@@ -138,6 +138,7 @@ function loadUserNameFromLocalStorage(){
     // new user is created so we generate name if username in local storage is null and emit event
     newUserConnected(userName)
 }
+
 function writeUserNameToLocalStorage(){
     window.localStorage.setItem("username",JSON.stringify(userName))
 }
