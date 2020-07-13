@@ -1,6 +1,6 @@
 
 # WhiteBoard-Implementation-Examples
-Examples of WhiteBoard Implementations using different architectural styles: PRC RMI P2P Cloud and Web
+Examples of WhiteBoard Implementations using different architectural styles: PRC RMI P2P Cloud and Web. 1 -- 5 with Java and 6, 7 with javaScript and NodeJS.
 ## Requirements
    java: [openJDK 13.0.2 build 13.0.2+8](https://jdk.java.net/14/) or greater  
    nodeJS: [v14.4.0](https://nodejs.org/en/)   
@@ -121,8 +121,9 @@ Creates multiple Client-Threads to connect to the server and create Shapes on th
 
 ## 6. [Simple UI](SimpleUI)
 Contains an `index.html` file, that can be opened in any browser, CSS-styles `ccc/styles.css` where the shape classes are defined, and javascript `js/scripts.js` that creates and deletes HTML-elements. 
-The JavaScript Code builds the shapes inside the HTML-document and saves the whiteboard in the browsers [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) before unloading the page. So that the previous state is recreated upon browser reloads.
-The browsers Local Storage can be inspected in its Web Developer > inspect Storage > Local Storage. 
+The JavaScript Code builds the shapes inside the HTML-document, recordes them in an array and saves the array in the browsers [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) before unloading the page. So that the previous state is recreated upon browser reloads.
+The creation of shapes is triggered by *onclick*-events of the corresponding button. The deletion of a shape is triggered by an *onclick*-event on the shape itself.
+The browsers Local Storage can be inspected in its Web Developer > inspect Storage > Local Storage > *url*. 
 
 ## 7. [WebExample](WebExample)
 The Whiteboard implementation uses the [express](https://www.npmjs.com/package/express) module on the server-side in the `index.js`, to create a file-server that distributes the static file to its clients from the `/public` folder. To have a consistent state of the Whiteboard across clients the server establishes socket connections and broadcasts all changes on the whiteboard. To transmit messages over the WebSocket-protocol we use the module [socket.io](https://www.npmjs.com/package/socket.io) which takes care of the handshake upon connection and the underlying protocol, so that we can easily define new types of socket messages and how they are handled. 
