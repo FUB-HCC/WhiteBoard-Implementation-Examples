@@ -122,10 +122,12 @@ The Whiteboard implimentation uses the [express](https://www.npmjs.com/package/e
 
 For the css styling we use [bulma](https://bulma.io/) that has well designed components.
 
-The Server handles the following socket messages:      `"connection", "disconnect", "create shape", "create shape", "move shape"`.   
+The Server handles the following socket messages:   
+    `"connection", "disconnect", "create shape", "create shape", "move shape"`     
 
-The Clients handle: 
-`"whiteboard", "new user", "user disconnected", "create shape", "delete shape", "move shape", "refresh"`. 
+The Clients handle:          
+    `"whiteboard", "new user", "user disconnected", "create shape", "delete shape", "move shape", "refresh"`    
+
 To test the Whiteboard Web-Application, first install the npm package-manager and nodeJS:     
 For Linux-Systems:  
     `sudo apt install nodejs`    
