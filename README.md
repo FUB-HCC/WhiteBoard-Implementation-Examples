@@ -126,7 +126,7 @@ The browsers Local Storage can be inspected in its Web Developer > inspect Stora
 
 ## 7. [WebExample](WebExample)
 The Whiteboard implementation uses the [express](https://www.npmjs.com/package/express) module on the server-side in the `index.js`, to create a file-server that distributes the static file to its clients from the `/public` folder. To have a consistent state of the Whiteboard across clients the server establishes socket connections and broadcasts all changes on the whiteboard. To transmit messages over the WebSocket-protocol we use the module [socket.io](https://www.npmjs.com/package/socket.io) which takes care of the handshake upon connection and the underlying protocol, so that we can easily define new types of socket messages and how they are handled. 
-The Server is the unique place of truth recording the state of the whiteboard, and the client's HTML-document changes are triggered by the server's socket messages.
+The Server is the unique place of truth, recording the state of the whiteboard. The changes on the client's HTML-document, displaying the state of the whiteboard, are triggered by the server's socket messages.
 
 The Server handles the following socket messages:   
     `"connection", "disconnect", "create shape", "create shape", "move shape"`     
