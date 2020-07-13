@@ -1,5 +1,14 @@
+
 # WhiteBoard-Implementation-Examples
 Examples of WhiteBoard Implementations using different architectural styles: PRC RMI P2P Cloud and Web
+## Requirements
+java: openJDK 13.0.2 (build 13.0.2+8)[https://jdk.java.net/14/] or greater
+nodeJS: v14.4.0
+npm: 6.14.4
+
+## Contents
+1. [EchoExample](./README.md## 1. EchoExample)
+2. [RPC Example Simple](./README.md## 2.1 RPC Example Simple)
 
 ## 1. EchoExample
 * **TCP**: 
@@ -105,13 +114,30 @@ For interaction and testing of the cloud use:
 Creates multiple Client-Threads to connect to the server and create Shapes on the Whiteboard in a while-loop, to test the server, whit 40 Threads the CPU is quickly above 30%. 
 
 ## 6. Simple UI
-Contains an `index.html` file that can be opened in any browser, CSS-styles, and javascript that creates and deletes HTML-elements. 
+Contains an `index.html` file, that can be opened in any browser, CSS-styles `ccc/styles.css` where the shape classes are defined, and javascript `js/scripts.js` that creates and deletes HTML-elements. 
 The JavaScript Code builds the shapes inside the HTML-document and saves the whiteboard in the browsers localStorage before unloading the page. So that the previous state is recreated upon browser reloads. 
 
 ## 7. WebExample
-To test the Whiteboard Web-Application, first install the npm package-manager and nodeJS:   
-Linux: `sudo apt install nodejs & sudo apt install npm`.    
-Install dependencies with: `npm install`, create the CSS-files: `npm run css-build` and then run the server: `npm run start`. Checkout the Whiteboard at http://localhost:5000/.
+The Whiteboard implimentation uses the [express](https://www.npmjs.com/package/express) module on the server-side, to create a file server that destiburtes the static file to its clients from the public folder. To have a constistent state of the Whiteboard across clients the server establishes socket connections. To transmit messages over the WebSocket-protocal we use the module [socket.io](https://www.npmjs.com/package/socket.io) which takes care of the underlaying protocol so that we can easily define new types of socket messages and how they are handled. 
 
-The Server handles the following socket messages: `"connection", "disconnect", "create shape", "create shape", "move shape"`. 
-The Clients handle: `"whiteboard", "new user", "user disconnected", "create shape", "delete shape", "move shape", "refresh"`. 
+For the css styling we use [bulma](https://bulma.io/) that has well designed components.
+
+The Server handles the following socket messages:      `"connection", "disconnect", "create shape", "create shape", "move shape"`.   
+
+The Clients handle: 
+`"whiteboard", "new user", "user disconnected", "create shape", "delete shape", "move shape", "refresh"`. 
+To test the Whiteboard Web-Application, first install the npm package-manager and nodeJS:     
+For Linux-Systems:  
+    `sudo apt install nodejs`    
+    `sudo apt install npm`  
+
+Install dependencies:
+    `npm install`   
+Create the CSS-files:
+    `npm run css-build` 
+Run the server:
+    `npm run start`
+
+Checkout the Whiteboard at http://localhost:5000/.
+
+
