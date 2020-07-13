@@ -144,13 +144,14 @@ For Linux-Systems:
     `sudo apt install nodejs`    
     `sudo apt install npm`  
 
-For MacOSX use for example [homebrew](https://brew.sh/) for installing the packages. Please install [nvm](https://github.com/nvm-sh/nvm), a version manager for node.js, first. Then `nvm install 14.4.0`. Switch then in the project folder (local copy of guthub repo):
+For MacOSX, use [homebrew](https://brew.sh/) for installing the packages. Please install [nvm](https://github.com/nvm-sh/nvm), a version manager for node.js, first. Then `nvm install 14.4.0`. Switch then in the project folder ([local copy of github repo]((WebExample))):
 
 Install dependencies:
     `npm install`   
 Create the CSS-files:
     `npm run css-build` 
-Run the server:     
+
+Simply run the server with:     
     `npm run start`
 
 Checkout the Whiteboard at http://localhost:5000/ and often different windows and broswers with private mode. Happy clicking! 
