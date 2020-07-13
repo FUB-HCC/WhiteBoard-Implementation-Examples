@@ -34,7 +34,7 @@ Examples of WhiteBoard Implementations using different architectural styles: PRC
     `java udp.UDPServer`      
     `java udp.UDPClient`    
 
-## 2.1 RPC Example Simple
+## 2.1 [RPC Example Simple](RPCExampleSimple)
 
 Please note: The RPC example is more an "without RMI" example. It is realized in order to show you the difference between with and without RMI.
 
@@ -45,7 +45,7 @@ Please note: The RPC example is more an "without RMI" example. It is realized in
     `java rpc.SimpleServer`     
     `java rpc.Client` 
 
-## 2.2 RPC Example
+## 2.2 [RPC Example](RPCExample)
 
 Please note: The RPC example is more an "without RMI" example. It is realized in order to show you the difference between with and without RMI.
 
@@ -59,7 +59,7 @@ Other commands are interactively described by the Whiteboard service.
     `java rpc.Server`       
     `java rpc.Client`        
 
-## 3. RMI Example 
+## 3. [RMI Example](RMIExample)
 * **RMI Server**: Provides the WhiteBoard class as an Interface.
 Start the registry first in the `bin` directory (or the same as you start the server)
 * **RMI Client**: Handles commands and executes them via the Whiteboard remote Interface. The interaction is the same as for the RPC example with the principal commands: *create*, *put*, *get*, and *delete*. 
@@ -72,7 +72,7 @@ Start the registry first in the `bin` directory (or the same as you start the se
     `java rmiserver.WhiteBoardService`    
     `java rmicient.Client`      
   
-## 4. P2P Example
+## 4. [P2P Example](P2PExample)
 This example implements the Whiteboard application in a pure Peer2Peer architactural style that relies on a complete network of *TCP* connections. 
 
 * **Peer**: First, start one Peer with its port (1 var). Then, start all other peers with their port, their hostname and the port of a known peer in the network (3 vars). 
@@ -94,7 +94,7 @@ If one Peer disconnects, all others update their List of PeerConnections. The in
 
 ![uml class diagram](out/P2PExample/peer-class-diagram/Peer.png)
 
-## 5. Cloud AWS Example
+## 5. [AWS Cloud Example](AWSCloudExample)
 The Amazon Elastic Compute Cloud (EC2) offers the following advantages:
 + High availability for different geo-locations (availability zones)
 + Autoscalling to maintain the application availability by adding or removing EC2 instances, depending on demand, e.g. CPU-usage.
@@ -119,11 +119,11 @@ For interaction and testing of the cloud use:
 ### aws.Client:
 Creates multiple Client-Threads to connect to the server and create Shapes on the Whiteboard in a while-loop, to test the server, whit 40 Threads the CPU is quickly above 30%. 
 
-## 6. Simple UI
+## 6. [Simple UI](SimpleUI)
 Contains an `index.html` file, that can be opened in any browser, CSS-styles `ccc/styles.css` where the shape classes are defined, and javascript `js/scripts.js` that creates and deletes HTML-elements. 
 The JavaScript Code builds the shapes inside the HTML-document and saves the whiteboard in the browsers localStorage before unloading the page. So that the previous state is recreated upon browser reloads. 
 
-## 7. WebExample
+## 7. [WebExample](WebExample)
 The Whiteboard implimentation uses the [express](https://www.npmjs.com/package/express) module on the server-side, to create a file server that destiburtes the static file to its clients from the public folder. To have a constistent state of the Whiteboard across clients the server establishes socket connections. To transmit messages over the WebSocket-protocal we use the module [socket.io](https://www.npmjs.com/package/socket.io) which takes care of the underlaying protocol so that we can easily define new types of socket messages and how they are handled. 
 
 For the css styling we use [bulma](https://bulma.io/) that has well designed components.
