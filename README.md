@@ -134,6 +134,8 @@ The Clients handle:
 
 For the UI design and CSS-styling we use [bulma](https://bulma.io/) that has designed and responsive components. In the `/sass` folder we import the [bulma](https://bulma.io/) classes and define additional styles, such as the hover behavior for the delete button. 
 
+On the client-side, after a socket connetion with the Server is established, the client sends its username. The username is saved in the clients localStorage and before randomly created. The Server recodes only usernames of users which have an active connection. If we would upgarde the application with a user-login, so that the users can connect to their accounts from any device, the user-information would have to move to a database on the server-side.
+
 To test the Whiteboard Web-Application, first install the npm package-manager and nodeJS:     
 For Linux-Systems:  
     `sudo apt install nodejs`    
@@ -143,7 +145,7 @@ Install dependencies:
     `npm install`   
 Create the CSS-files:
     `npm run css-build` 
-Run the server:
+Run the server:     
     `npm run start`
 
 Checkout the Whiteboard at http://localhost:5000/.
