@@ -124,15 +124,15 @@ Contains an `index.html` file, that can be opened in any browser, CSS-styles `cc
 The JavaScript Code builds the shapes inside the HTML-document and saves the whiteboard in the browsers localStorage before unloading the page. So that the previous state is recreated upon browser reloads. 
 
 ## 7. [WebExample](WebExample)
-The Whiteboard implimentation uses the [express](https://www.npmjs.com/package/express) module on the server-side, to create a file server that destiburtes the static file to its clients from the public folder. To have a constistent state of the Whiteboard across clients the server establishes socket connections. To transmit messages over the WebSocket-protocal we use the module [socket.io](https://www.npmjs.com/package/socket.io) which takes care of the underlaying protocol so that we can easily define new types of socket messages and how they are handled. 
-
-For the css styling we use [bulma](https://bulma.io/) that has well designed components.
+The Whiteboard implementation uses the [express](https://www.npmjs.com/package/express) module on the server-side in the `index.js`, to create a file-server that distributes the static file to its clients from the `/public` folder. To have a consistent state of the Whiteboard across clients the server establishes socket connections and broadcasts all changes on the whiteboard. To transmit messages over the WebSocket-protocol we use the module [socket.io](https://www.npmjs.com/package/socket.io) which takes care of the handshake upon connection and the underlying protocol, so that we can easily define new types of socket messages and how they are handled. 
 
 The Server handles the following socket messages:   
     `"connection", "disconnect", "create shape", "create shape", "move shape"`     
 
 The Clients handle:          
-    `"whiteboard", "new user", "user disconnected", "create shape", "delete shape", "move shape", "refresh"`    
+    `"whiteboard", "new user", "user disconnected", "create shape", "delete shape", "move shape", "refresh"`   
+
+For the UI design and CSS-styling we use [bulma](https://bulma.io/) that has designed and responsive components. In the `/sass` folder we import the [bulma](https://bulma.io/) classes and define additional styles, such as the hover behavior for the delete button. 
 
 To test the Whiteboard Web-Application, first install the npm package-manager and nodeJS:     
 For Linux-Systems:  
@@ -147,5 +147,3 @@ Run the server:
     `npm run start`
 
 Checkout the Whiteboard at http://localhost:5000/.
-
-
