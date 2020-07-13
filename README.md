@@ -2,9 +2,9 @@
 # WhiteBoard-Implementation-Examples
 Examples of WhiteBoard Implementations using different architectural styles: PRC RMI P2P Cloud and Web
 ## Requirements
-    java: [openJDK 13.0.2 build 13.0.2+8](https://jdk.java.net/14/) or greater  
-    nodeJS: [v14.4.0](https://nodejs.org/en/)   
-    npm: [6.14.4](https://www.npmjs.com/)   
+   java: [openJDK 13.0.2 build 13.0.2+8](https://jdk.java.net/14/) or greater  
+   nodeJS: [v14.4.0](https://nodejs.org/en/)   
+   npm: [6.14.4](https://www.npmjs.com/)   
 
 ## Table of Contents
 1. [EchoExample](#1-EchoExample)
