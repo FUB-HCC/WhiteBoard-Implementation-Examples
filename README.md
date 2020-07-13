@@ -7,7 +7,7 @@ nodeJS: v14.4.0
 npm: 6.14.4
 
 ## Table of Contents
-1. [EchoExample](#1.-EchoExample)
+1. [EchoExample](#1-EchoExample)
 1. [RPC Example Simple](#2.1-RPC-Example-Simple)
 
 ## 1. EchoExample
