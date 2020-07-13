@@ -121,10 +121,12 @@ Creates multiple Client-Threads to connect to the server and create Shapes on th
 
 ## 6. [Simple UI](SimpleUI)
 Contains an `index.html` file, that can be opened in any browser, CSS-styles `ccc/styles.css` where the shape classes are defined, and javascript `js/scripts.js` that creates and deletes HTML-elements. 
-The JavaScript Code builds the shapes inside the HTML-document and saves the whiteboard in the browsers localStorage before unloading the page. So that the previous state is recreated upon browser reloads. 
+The JavaScript Code builds the shapes inside the HTML-document and saves the whiteboard in the browsers [Local Storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) before unloading the page. So that the previous state is recreated upon browser reloads.
+The browsers Local Storage can be inspected in its Web Developer > inspect Storage > Local Storage. 
 
 ## 7. [WebExample](WebExample)
 The Whiteboard implementation uses the [express](https://www.npmjs.com/package/express) module on the server-side in the `index.js`, to create a file-server that distributes the static file to its clients from the `/public` folder. To have a consistent state of the Whiteboard across clients the server establishes socket connections and broadcasts all changes on the whiteboard. To transmit messages over the WebSocket-protocol we use the module [socket.io](https://www.npmjs.com/package/socket.io) which takes care of the handshake upon connection and the underlying protocol, so that we can easily define new types of socket messages and how they are handled. 
+The Server is the unique place of truth recording the state of the whiteboard, and the client's HTML-document changes are triggered by the server's socket messages.
 
 The Server handles the following socket messages:   
     `"connection", "disconnect", "create shape", "create shape", "move shape"`     
@@ -134,7 +136,7 @@ The Clients handle:
 
 For the UI design and CSS-styling we use [bulma](https://bulma.io/) that has designed and responsive components. In the `/sass` folder we import the [bulma](https://bulma.io/) classes and define additional styles, such as the hover behavior for the delete button. 
 
-On the client-side, after a socket connetion with the Server is established, the client sends its username. The username is saved in the clients localStorage and before randomly created. The Server recodes only usernames of users which have an active connection. If we would upgarde the application with a user-login, so that the users can connect to their accounts from any device, the user-information would have to move to a database on the server-side.
+On the client-side, after a socket connection with the server is established, the client sends its username. The username is saved in the client's Local Storage and that was before randomly generated. The Server recodes only the usernames of users that have an active connection. If we would upgrade the application with a user-login, so that the users can connect to their accounts from any device, the user-information would have to move to a database on the server-side.
 
 To test the Whiteboard Web-Application, first install the npm package-manager and nodeJS:     
 For Linux-Systems:  
