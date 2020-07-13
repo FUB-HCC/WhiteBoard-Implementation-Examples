@@ -8,8 +8,8 @@ npm: 6.14.4
 
 ## Table of Contents
 1. [EchoExample](#1-EchoExample)
-1. [RPC](#2.1-RPC-Example-Simple)
-    1. [RPC Example Simple](#2.1-RPC-Example-Simple)
+1. [RPC](#21-RPC-Example-Simple)
+    1. [RPC Example Simple](#21-RPC-Example-Simple)
     1. [RPC Example](#22-RPC-Example)
 1. [RMI Example](#3-RMI-Example)
 1. [P2P Example](#4-P2P-Eample)
