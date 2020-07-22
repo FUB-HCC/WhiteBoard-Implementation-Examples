@@ -82,6 +82,8 @@ This example implements the Whiteboard application in a pure Peer2Peer architact
     `java p2p.Peer 12344 localhost 12345`   
     `java p2p.Peer 12343 localhost 12344` ...
 
+![p2p-network](P2PExample/P2P-Network.png)
+
 An **Edit** is defined as a: `enum Edit { add, remove }`. Each edit on the Whiteboard is "broadcasted" to all others.
 An **EditRecord** contains the Edit, Shape, Peer ID, and has a logical time-stamp. Every Peer records a sorted array of all EditRecords to generate a consistent state of the Whiteboard across Peers. 
 The **Whiteboard** class is the shared instance between the different Threads, where the data about the Peer2Peer network and the Whiteboard itself is stored. 
@@ -93,6 +95,8 @@ If one Peer disconnects, all others update their List of PeerConnections. The in
 * Protocol choices *TCP* vs. *UDP*: This implementation relies on stable TCP connnections. For increasing size of the network it might result in larger bandwith usage and overhead. In this case *UDP* could be a better choice, though possible packege los needs to be handled, to assure a consistent Whiteborad.
 
 ![uml class diagram](out/P2PExample/peer-class-diagram/Peer.png)
+
+
 
 ## 5. [AWS Cloud Example](AWSCloudExample)
 The Amazon Elastic Compute Cloud (EC2) offers the following advantages:
