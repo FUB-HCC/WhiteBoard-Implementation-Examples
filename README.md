@@ -152,3 +152,4 @@ Run the server:
     `npm run start`
 
 Checkout the Whiteboard at http://localhost:5000/.
+![whiteboardUI](WebExample/WhiteboardUI.png)
