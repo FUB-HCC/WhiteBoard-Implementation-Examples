@@ -1,6 +1,6 @@
 
 # WhiteBoard-Implementation-Examples
-Examples of WhiteBoard Implementations using different architectural styles: PRC RMI P2P Cloud and Web. 1 -- 5 with Java and 6, 7 with javaScript and NodeJS.
+Examples of WhiteBoard Implementations using different architectural styles: PRC RMI P2P Cloud and Web. 1 - 5 with Java and 6, 7 with JavaScript and NodeJS.
 ## Requirements
    java: [openJDK 13.0.2 build 13.0.2+8](https://jdk.java.net/14/) or greater  
    nodeJS: [v14.4.0](https://nodejs.org/en/)   
@@ -10,8 +10,8 @@ Examples of WhiteBoard Implementations using different architectural styles: PRC
 1. [EchoExample](#1-EchoExample)
 1. [RPC](#21-RPC-Example-Simple)    1. [RPC Example Simple](#21-RPC-Example-Simple)     2. [RPC Example](#22-RPC-Example)
 1. [RMI Example](#3-RMI-Example)
-1. [P2P Example](#4-P2P-Eample)
-1. [Cloud AWS Example](5-Cloud-AWS-Example)
+1. [P2P Example](#4-P2P-Example)
+1. [Cloud AWS Example](#5-Cloud-AWS-Example)
 1. [Simple UI](#6-Simple-UI)
 1. [WebExample](#7-WebExample)
 
@@ -105,10 +105,11 @@ The Amazon Elastic Compute Cloud (EC2) offers the following advantages:
 1. Launch EC2 Instance (Amazon Linux 2 AMI) Instance type: *t2.micro*
 2. Connect to the instance with ssh and do the desired setup, so we install JAVA and pull from this git Repository.
 3. Create an Amazon Machine Images (AMI) from the Instance
-4. Create and Launch an Autoscaling Configuration Group with our AMI. Then we choose a desired capacity one 1 Instance, minimum 1 and maximum 4. When an instance terminates, a new one will be started to reach the desired Capacity. We configured scaling policy to increase and decrease the number of instances depending on the average CPU-Utilization. Decrease if it is below 20%, and increase by one if it is above 30% for demonstration purpose. 
-5. Add a Load Balancer to the Auto-Scaling Group, that performs health checks on the instances and distributes the traffic.
+4. Create and Launch an Autoscaling Configuration Group with our AMI. Then we choose a desired capacity one 1 Instance, minimum 1 and maximum 
+5. When an instance terminates, a new one will be started to reach the desired Capacity. We configured scaling policy to increase and decrease the number of instances depending on the average CPU-Utilization. Decrease if it is below 20%, and increase by one if it is above 30% for demonstration purpose. 
+6. Add a Load Balancer to the Auto-Scaling Group, that performs health checks on the instances and distributes the traffic.
 
-6. Now we have a scalable Whiteboard-Service, but each Server-Instance has its Whiteboard, as they are not synchronized. A database would provide a solution to guarantee a consistent state, e.g. accessing an Amazon Elastic Block Store (EBS) from all instances.
+7. Now we have a scalable Whiteboard-Service, but each Server-Instance has its Whiteboard, as they are not synchronized. A database would provide a solution to guarantee a consistent state, e.g. accessing an Amazon Elastic Block Store (EBS) from all instances.
 
 For interaction and testing of the cloud use:
 + RPCExample:   
@@ -144,12 +145,15 @@ For Linux-Systems:
     `sudo apt install nodejs`    
     `sudo apt install npm`  
 
+For MacOSX, use [homebrew](https://brew.sh/) for installing the packages. Please install [nvm](https://github.com/nvm-sh/nvm), a version manager for node.js, first. Then `nvm install 14.4.0`. Switch then in the project folder ([local copy of github repo]((WebExample))):
+
 Install dependencies:
     `npm install`   
 Create the CSS-files:
     `npm run css-build` 
-Run the server:     
+
+Simply run the server with:     
     `npm run start`
 
-Checkout the Whiteboard at http://localhost:5000/.
+Checkout the Whiteboard at http://localhost:5000/ and often different windows and broswers with private mode. Happy clicking! 
 ![whiteboardUI](WebExample/WhiteboardUI.png)
