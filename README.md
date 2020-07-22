@@ -10,8 +10,8 @@ Examples of WhiteBoard Implementations using different architectural styles: PRC
 1. [EchoExample](#1-EchoExample)
 1. [RPC](#21-RPC-Example-Simple)    1. [RPC Example Simple](#21-RPC-Example-Simple)     2. [RPC Example](#22-RPC-Example)
 1. [RMI Example](#3-RMI-Example)
-1. [P2P Example](#4-P2P-Eample)
-1. [Cloud AWS Example](5-Cloud-AWS-Example)
+1. [P2P Example](#4-P2P-Example)
+1. [Cloud AWS Example](#5-Cloud-AWS-Example)
 1. [Simple UI](#6-Simple-UI)
 1. [WebExample](#7-WebExample)
 
