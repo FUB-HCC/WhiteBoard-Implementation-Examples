@@ -137,11 +137,11 @@ The Server is the unique place of truth, recording the state of the whiteboard. 
 
 The express server **app** listens on port 5000 and handles the following socket messages:   
     `"connection", "disconnect", "create shape", "create shape", "move shape"`    
-    
-The server holds a set of *activeUsers*, an array of *shapes* of the whiteboard and an idCounter for shapes.
+The server holds a set of *activeUsers*, an array of *shapes* of the whiteboard and an *idCounter* for shapes.
 
-The Clients handle:          
+The Clients handle and emit:          
     `"whiteboard", "new user", "user disconnected", "create shape", "delete shape", "move shape", "refresh"`   
+The username is saved in the Local Storage across browser restarts.
 
 For the UI design and CSS-styling we use [bulma](https://bulma.io/) that has designed and responsive components. In the `/sass` folder we import the [bulma](https://bulma.io/) classes and define additional styles, such as the hover behavior for the delete button. 
 
