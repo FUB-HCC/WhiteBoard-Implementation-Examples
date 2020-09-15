@@ -107,12 +107,12 @@ The Amazon Elastic Compute Cloud (EC2) offers the following advantages:
 
 ### Setup of our RPC-Server on the AWS-Cloud
 [more detailed setup here!](https://medium.com/serverlessguru/creating-an-aws-ec2-instance-d5cf332fdb0c)
-1. Launch EC2 Instance (Amazon Linux 2 AMI) Instance type: *t2.micro*
+1. Launch EC2 Instance (Amazon Linux 2 AMI) Instance type: *t2.micro* (**free**)
 2. Connect to the instance with ssh and do the desired setup, so we install JAVA and pull from this git Repository.
 3. Create an Amazon Machine Images (AMI) from the Instance
-4. Create and Launch an Autoscaling Configuration Group with our AMI. Then we choose a desired capacity one 1 Instance, minimum 1 and maximum 
+4. (**not free**) Create and Launch an **Autoscaling Configuration Group** with our AMI. Then we choose a desired capacity one 1 Instance, minimum 1 and maximum 
 5. When an instance terminates, a new one will be started to reach the desired Capacity. We configured scaling policy to increase and decrease the number of instances depending on the average CPU-Utilization. Decrease if it is below 20%, and increase by one if it is above 30% for demonstration purpose. 
-6. Add a Load Balancer to the Auto-Scaling Group, that performs health checks on the instances and distributes the traffic.
+6. (**not free**) Add a **Load Balancer** to the Auto-Scaling Group, that performs health checks on the instances and distributes the traffic.
 
 7. Now we have a scalable Whiteboard-Service, but each Server-Instance has its Whiteboard, as they are not synchronized. A database would provide a solution to guarantee a consistent state, e.g. accessing an Amazon Elastic Block Store (EBS) from all instances.
 
