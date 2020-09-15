@@ -106,7 +106,7 @@ The Amazon Elastic Compute Cloud (EC2) offers the following advantages:
 + Performs health checks to terminate and restart erroneous instances. 
 
 ### Setup of our RPC-Server on the AWS-Cloud
-![more detailed setup here!](https://medium.com/serverlessguru/creating-an-aws-ec2-instance-d5cf332fdb0c)
+[more detailed setup here!](https://medium.com/serverlessguru/creating-an-aws-ec2-instance-d5cf332fdb0c)
 1. Launch EC2 Instance (Amazon Linux 2 AMI) Instance type: *t2.micro*
 2. Connect to the instance with ssh and do the desired setup, so we install JAVA and pull from this git Repository.
 3. Create an Amazon Machine Images (AMI) from the Instance
