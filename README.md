@@ -135,13 +135,16 @@ The browsers Local Storage can be inspected in its Web Developer > inspect Stora
 The Whiteboard implementation uses the [express](https://www.npmjs.com/package/express) module on the server-side in the `index.js`, to create a file-server that distributes the static file to its clients from the `/public` folder. To have a consistent state of the Whiteboard across clients the server establishes socket connections and broadcasts all changes on the whiteboard. To transmit messages over the WebSocket-protocol we use the module [socket.io](https://www.npmjs.com/package/socket.io) which takes care of the handshake upon connection and the underlying protocol, so that we can easily define new types of socket messages and how they are handled. 
 The Server is the unique place of truth, recording the state of the whiteboard. The changes on the client's HTML-document, displaying the state of the whiteboard, are triggered by the server's socket messages.
 
-The express server **app** listens on port 5000 and handles the following socket messages:   
+The *express server* **app** listens on port 5000 and handles the following socket messages:   
     `"connection", "disconnect", "create shape", "create shape", "move shape"`    
 The server holds a set of *activeUsers*, an array of *shapes* of the whiteboard and an *idCounter* for shapes.
 
-The Clients handle and emit:          
+The *Clients* handle and emit:          
     `"whiteboard", "new user", "user disconnected", "create shape", "delete shape", "move shape", "refresh"`   
 The username is saved in the Local Storage across browser restarts.
+
+**Moving shapes**:   
+   Shapes have a position *x,y*. The function *handleDragStart* is called on shapes for the "onmousedown" event. A new event listener is added *mousemove* to render the shape at the cursor's position. *onmouseup* the client emits the *move shape* massage to the server with the new position and removes the *mousemove* eventlistener. 
 
 For the UI design and CSS-styling we use [bulma](https://bulma.io/) that has designed and responsive components. In the `/sass` folder we import the [bulma](https://bulma.io/) classes and define additional styles, such as the hover behavior for the delete button. 
 
