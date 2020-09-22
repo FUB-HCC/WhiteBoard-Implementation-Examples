@@ -144,7 +144,7 @@ The *Clients* handle and emit:
 The username is saved in the Local Storage across browser restarts.
 
 **Moving shapes**:   
-   Shapes have a position *x,y*. The function *handleDragStart* is called on shapes for the "onmousedown" event. A new event listener is added *mousemove* to render the shape at the cursor's position. *onmouseup* the client emits the *move shape* massage to the server with the new position and removes the *mousemove* eventlistener. 
+   Shapes have a position *x,y*. The function *handleDragStart* is called on shapes for the "*onmousedown*" event. A new event listener is added "*mousemove*" to render the shape at the cursor's position. *onmouseup* the client emits the *move shape* massage to the server with the new position and removes the *mousemove* eventlistener. The server informes all other clients so everyone has the same state on the whiteboard. 
 
 For the UI design and CSS-styling we use [bulma](https://bulma.io/) that has designed and responsive components. In the `/sass` folder we import the [bulma](https://bulma.io/) classes and define additional styles, such as the hover behavior for the delete button. 
 
