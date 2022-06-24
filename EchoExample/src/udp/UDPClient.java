@@ -29,7 +29,7 @@ class UDPClient {
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         clientSocket.receive(receivePacket);
         
-        String modifiedSentence = new String(receivePacket.getData());
+        String modifiedSentence = new String(receivePacket.getData(), receivePacket.getOffset(), receivePacket.getLength());
         
         System.out.println("FROM SERVER: " + modifiedSentence);
        
